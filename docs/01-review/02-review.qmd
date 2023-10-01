@@ -9,7 +9,7 @@ format:
     #theme: ['default', 'my-css.css']
     # self_contained: true
 execute: 
-  freeze: auto
+  freeze: true
 editor: 
   markdown: 
     wrap: 72
