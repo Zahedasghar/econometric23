@@ -11,7 +11,6 @@
   <meta name="generator" content="quarto-1.3.299">
 
   <meta name="author" content="Zahid Asghar">
-  <meta name="dcterms.date" content="2023-09-16">
   <title>Metric Review</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -100,6 +99,8 @@
   <link href="02-review_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="02-review_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="02-review_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="02-review_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="02-review_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="02-review_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
@@ -391,7 +392,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Metric Review</h1>
+  <h1 class="title"><span class="flow">Metric Review</span></h1>
   <p class="subtitle">Econometric Methods</p>
 
 <div class="quarto-title-authors">
@@ -402,29 +403,22 @@ Zahid Asghar
 </div>
 </div>
 
-  <p class="date">2023-09-16</p>
+  <p class="date">10-09-2023</p>
 </section>
-<section id="prologue" class="title-slide slide level1 center">
-<h1>Prologue</h1>
+<section class="slide level2">
 
-</section>
-
-<section>
-<section id="monor-showcase" class="title-slide slide level1 center">
-<h1>.mono[R] showcase</h1>
-
-</section>
-<section id="new-this-week" class="slide level2">
-<h2>New this week</h2>
-<p>Because part of this course is about learning and implementing .mono[R], I’m going to share some interesting/amazing/fun applications of .mono[R].</p>
+<p>Because part of this course is about learning and implementing <span style="color:blue;">R</span>, I’m going to share some interesting/amazing/fun applications of <span style="color:blue;">R</span>.</p>
 <p><a href="https://cultureofinsight.shinyapps.io/location_mapper/"><strong>Culture of Insight website</strong></a></p>
 <ul>
-<li>.mono[R]-based web application</li>
+<li><span style="color:blue;">R</span>-based web application</li>
 <li>Maps your location data (as tracked by Google)</li>
-<li>Great example of .mono[R]’s ability to extend beyond statistical programming</li>
+<li>Great example of <span style="color:blue;">R</span>’s ability to extend beyond statistical programming</li>
 <li>(Visualization matters.)</li>
 </ul>
-<p><a href="https://github.com/tylermorganwall/rayshader"><strong>The .mono[rayshader] package</strong></a></p>
+</section>
+<section class="slide level2">
+
+<p><a href="https://github.com/tylermorganwall/rayshader"><strong>The <span style="color:blue;">rayshader</span> package</strong></a></p>
 <ul>
 <li>Creates really cool shaded maps (easily!)</li>
 <li>What else does one need?</li>
@@ -439,23 +433,7 @@ Zahid Asghar
 <center>
 <img src="https://raw.githack.com/tylermorganwall/rayshader/master/tools/readme/smallhobart.gif" width="500"> The <a href="https://github.com/tylermorganwall/rayshader">rayshader</a> package.
 </center>
-</section></section>
-<section>
-<section id="last-time" class="title-slide slide level1 center">
-<h1>Last Time</h1>
-
 </section>
-<section id="motivation" class="slide level2">
-<h2>Motivation</h2>
-<p>In our last set of slides, we</p>
-<ol type="1">
-<li><p>discussed the <strong>motivation</strong> for studying econometrics (metrics)</p></li>
-<li><p><strong>introduced .mono[R]</strong>—why we use it, what it can do</p></li>
-<li><p><strong>started reviewing</strong> material from your previous classes</p></li>
-</ol>
-<p>These notes continue the review, building the foundation for some new topics (soon).</p>
-<p>Normally: .mono[R] is <a href="https://library.uoregon.edu/library-technology-services/public-info/a-software">available at all academic workstations at UO</a>.</p>
-</section></section>
 <section id="review" class="title-slide slide level1 center">
 <h1>Review</h1>
 
@@ -560,8 +538,7 @@ Zahid Asghar
 </div>
 </div>
 <p><strong>Population relationship</strong> <span class="math inline">\(y_i = 2.53+0.57 x_i + u_i\)</span></p>
-<p><strong>Sample relationship</strong></p>
-<p><span class="math inline">\(\hat{y}_i = 2.79+`r round(lm2\)</span>coefficients[2], 2)` x_i$</p>
+<p><strong>Sample relationship</strong> <span class="math inline">\(\hat{y}_i = 2.79+0.56 x_i\)</span></p>
 </div>
 </div>
 </section>
@@ -589,8 +566,8 @@ Zahid Asghar
 </div>
 </div>
 </div>
-<p>[<strong>Population relationship</strong> <span class="math inline">\(y_i = 2.53+0.57 x_i + u_i\)</span></p>
-<p><strong>Sample relationship</strong> <span class="math inline">\(\hat{y}_i = 3.21+0.45 x_i\)</span> ]{.center}</p>
+<p><span class="center"><strong>Population relationship</strong> <span class="math inline">\(y_i = 2.53+0.57 x_i + u_i\)</span></span></p>
+<p><span class="center"><strong>Sample relationship</strong> <span class="math inline">\(\hat{y}_i = 3.21+0.45 x_i\)</span></span></p>
 </div>
 </div>
 </section>
@@ -614,8 +591,8 @@ Zahid Asghar
 </div>
 </div>
 </section>
-<section id="section-5" class="slide level2">
-<h2></h2>
+<section class="slide level2">
+
 <p><strong>Answer:</strong> Uncertainty matters.</p>
 <p><span class="math inline">\(\hat{\beta}\)</span> itself is a random variable—dependent upon the random sample. When we take a sample and run a regression, we don’t know if it’s a ‘good’ sample ( <span class="math inline">\(\hat{\beta}\)</span> is close to <span class="math inline">\(\beta\)</span>) or a ‘bad sample’ (our sample differs greatly from the population).</p>
 </section>
@@ -636,7 +613,7 @@ Zahid Asghar
 </section>
 <section id="the-estimator" class="slide level2">
 <h2>The estimator</h2>
-<p>We can estimate a regression line in .mono[R] (<code>lm(y ~ x, my_data)</code>) and .mono[Stata] (<code>reg y x</code>). But where do these estimates come from?</p>
+<p>We can estimate a regression line in <span style="color:blue;">R</span> (<code>lm(y ~ x, my_data)</code>) <span style="color:blue;">Stata</span> (<code>reg y x</code>) and <span style="color:blue;">Python</span> (<code>smf.ols(formula='y ~ x', data=my_data)</code>). But where do these estimates come from?</p>
 <p>A few slides back:</p>
 <blockquote>
 <p><span class="math display">\[ \hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i \]</span> which gives us the <em>best-fit</em> line through our dataset.</p>
@@ -646,10 +623,7 @@ Zahid Asghar
 <section id="being-the-best" class="slide level2">
 <h2>Being the “best”</h2>
 <p><strong>Question:</strong> What do we mean by <em>best-fit line</em>?</p>
-<p><strong>Answers:</strong></p>
-<ul>
-<li>In general (econometrics), <em>best-fit line</em> means the line that minimizes the sum of squared errors (SSE):</li>
-</ul>
+<p><strong>Answers:</strong> In general (econometrics), <em>best-fit line</em> means the line that minimizes the sum of squared errors (SSE):</p>
 <p><span class="center"><span class="math inline">\(\text{SSE} = \sum_{i = 1}^{n} e_i^2\quad\)</span> where <span class="math inline">\(\quad e_i = y_i - \hat{y}_i\)</span></span></p>
 <ul>
 <li>Ordinary <strong>least squares</strong> (<strong>OLS</strong>) minimizes the sum of the squared errors.</li>
@@ -662,47 +636,34 @@ Zahid Asghar
 </section>
 <section id="ols-vs.-other-linesestimators" class="slide level2">
 <h2>OLS <em>vs.</em> other lines/estimators</h2>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="02-review_files/figure-revealjs/ols%20vs%20lines%201-1.svg" width="1008"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>For any line <span class="math inline">\(\left(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\right)\)</span> <span class="math inline">\(\color{#ffffff}{\bigg|}\)</span></p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="02-review_files/figure-revealjs/vs%20lines%202-1.svg" width="1008"></p>
-</figure>
-</div>
-</div>
-</div>
+
+<img data-src="02-review_files/figure-revealjs/ols%20vs%20lines%201-1.svg" width="1008" class="r-stretch quarto-figure-center"><p>For any line <span class="math inline">\(\left(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\right)\)</span> <span class="math inline">\(\color{#ffffff}{\bigg|}\)</span></p>
 </section>
-<section id="section-6" class="slide level2">
+<section class="slide level2">
+
+
+<img data-src="02-review_files/figure-revealjs/vs%20lines%202-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
+<section id="section-5" class="slide level2">
 <h2></h2>
 <p>For any line <span class="math inline">\(\left(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\right)\)</span>, we can calculate errors: <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span> <span class="math inline">\(\color{#ffffff}{\bigg|}\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/ols%20vs%20lines%203-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-7" class="slide level2">
+<section id="section-6" class="slide level2">
 <h2></h2>
 <p>For any line <span class="math inline">\(\left(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\right)\)</span>, we can calculate errors: <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span> <span class="math inline">\(\color{#ffffff}{\bigg|}\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/ols%20vs%20lines%204-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-8" class="slide level2">
+<section id="section-7" class="slide level2">
 <h2></h2>
 <p>For any line <span class="math inline">\(\left(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\right)\)</span>, we can calculate errors: <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span> <span class="math inline">\(\color{#ffffff}{\bigg|}\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/ols%20vs%20lines%205-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-9" class="slide level2">
+<section id="section-8" class="slide level2">
 <h2></h2>
 <p>SSE squares the errors <span class="math inline">\(\left(\sum e_i^2\right)\)</span>: bigger errors get bigger penalties. <span class="math inline">\(\color{#ffffff}{\bigg|}\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/ols%20vs%20lines%206-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-10" class="slide level2">
+<section id="section-9" class="slide level2">
 <h2></h2>
 <p>The OLS estimate is the combination of <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> that minimize SSE. <span class="math inline">\(\color{#ffffff}{\bigg|}\)</span></p>
 
@@ -718,11 +679,10 @@ Zahid Asghar
   &amp;= y_i^2 - 2 y_i \hat{\beta}_0 - 2 y_i \hat{\beta}_1 x_i + \hat{\beta}_0^2 + 2 \hat{\beta}_0 \hat{\beta}_1 x_i + \hat{\beta}_1^2 x_i^2
 \end{aligned}
 \]</span></p>
-<p>–</p>
-<p><strong>Recall:</strong> Minimizing a multivariate function requires (<strong>1</strong>) first derivatives equal zero (the <em>1.super[st]-order conditions</em>) and (<strong>2</strong>) second-order conditions (concavity).</p>
 </section>
 <section class="slide level2">
 
+<p><strong>Recall:</strong> Minimizing a multivariate function requires (<strong>1</strong>) first derivatives equal zero (the <em>1.super[st]-order conditions</em>) and (<strong>2</strong>) second-order conditions (concavity).</p>
 <p>We’re getting close. We need to <strong>minimize SSE</strong>. We’ve showed how SSE relates to our sample (our data: <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>) and our estimates (<em>i.e.</em>, <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span>).</p>
 <p><span class="math display">\[ \text{SSE} = \sum_i e_i^2 = \sum_i \left( y_i^2 - 2 y_i \hat{\beta}_0 - 2 y_i \hat{\beta}_1 x_i + \hat{\beta}_0^2 + 2 \hat{\beta}_0 \hat{\beta}_1 x_i + \hat{\beta}_1^2 x_i^2 \right) \]</span></p>
 <p>For the first-order conditions of minimization, we now take the first derivates of SSE with respect to <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span>.</p>
@@ -732,17 +692,17 @@ Zahid Asghar
   &amp;= 2n \hat{\beta}_0 + 2n \hat{\beta}_1 \overline{x} - 2n \overline{y}
 \end{aligned}
 \]</span></p>
-<p>where <span class="math inline">\(\overline{x} = \frac{\sum x_i}{n}\)</span> and <span class="math inline">\(\overline{y} = \frac{\sum y_i}{n}\)</span> are sample means of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> (size <span class="math inline">\(n\)</span>).</p>
 </section>
-<section id="section-11" class="slide level2">
-<h2></h2>
+<section class="slide level2">
+
+<p>where <span class="math inline">\(\overline{x} = \frac{\sum x_i}{n}\)</span> and <span class="math inline">\(\overline{y} = \frac{\sum y_i}{n}\)</span> are sample means of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> (size <span class="math inline">\(n\)</span>).</p>
 <p>The first-order conditions state that the derivatives are equal to zero, so:</p>
 <p><span class="math display">\[ \dfrac{\partial \text{SSE}}{\partial \hat{\beta}_0} = 2n \hat{\beta}_0 + 2n \hat{\beta}_1 \overline{x} - 2n \overline{y} = 0 \]</span></p>
 <p>which implies</p>
 <p><span class="math display">\[ \hat{\beta}_0 = \overline{y} - \hat{\beta}_1 \overline{x} \]</span></p>
 <p>Now for <span class="math inline">\(\hat{\beta}_1\)</span>.</p>
 </section>
-<section id="section-12" class="slide level2">
+<section id="section-10" class="slide level2">
 <h2></h2>
 <p>Take the derivative of SSE with respect to <span class="math inline">\(\hat{\beta}_1\)</span></p>
 <p><span class="math display">\[
@@ -758,7 +718,7 @@ Zahid Asghar
 2n \left(\overline{y} - \hat{\beta}_1 \overline{x}\right) \overline{x} + 2 \hat{\beta}_1 \sum_i x_i^2 - 2 \sum_i y_i x_i = 0
 \]</span></p>
 </section>
-<section id="section-13" class="slide level2">
+<section id="section-11" class="slide level2">
 <h2></h2>
 <p>Continuing from the last slide</p>
 <p><span class="math display">\[ 2n \left(\overline{y} - \hat{\beta}_1 \overline{x}\right) \overline{x} + 2 \hat{\beta}_1 \sum_i x_i^2 - 2 \sum_i y_i x_i = 0 \]</span></p>
@@ -767,7 +727,7 @@ Zahid Asghar
 <p><span class="math display">\[ \implies 2 \hat{\beta}_1 \left( \sum_i x_i^2 - n \overline{x}^2 \right) = 2 \sum_i y_i x_i - 2n \overline{y}\,\overline{x} \]</span></p>
 <p><span class="math display">\[ \implies \hat{\beta}_1 = \dfrac{\sum_i y_i x_i - 2n \overline{y}\,\overline{x}}{\sum_i x_i^2 - n \overline{x}^2} = \dfrac{\sum_i (x_i - \overline{x})(y_i - \overline{y})}{\sum_i (x_i - \overline{x})^2} \]</span></p>
 </section>
-<section id="section-14" class="slide level2">
+<section id="section-12" class="slide level2">
 <h2></h2>
 <p>Done!</p>
 <p>We now have (lovely) OLS estimators for the slope</p>
@@ -786,51 +746,47 @@ Zahid Asghar
 <section id="properties" class="slide level2">
 <h2>Properties</h2>
 <p><strong>Question:</strong> What properties might we care about for an estimator?</p>
-<p>–</p>
-<p><strong>Tangent:</strong> Let’s review statistical properies first.</p>
-</section>
-<section class="slide level2">
-
+<p><strong>Tangent:</strong> Let’s review statistical properties first.</p>
 <p><strong>Refresher:</strong> Density functions</p>
 <p>Recall that we use <strong>probability density functions</strong> (PDFs) to describe the probability a <strong>continuous random variable</strong> takes on a range of values. (The total area = 1.)</p>
 <p>These PDFs characterize probability distributions, and the most common/famous/popular distributions get names (<em>e.g.</em>, normal, <em>t</em>, Gamma).</p>
 </section>
-<section id="section-15" class="slide level2">
+<section id="section-13" class="slide level2">
 <h2></h2>
 <p><strong>Refresher:</strong> Density functions</p>
 <p>The probability a standard normal random variable takes on a value between -2 and 0: <span class="math inline">\(\mathop{\text{P}}\left(-2 \leq X \leq 0\right) = 0.48\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/example-%20pdf-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-16" class="slide level2">
+<section id="section-14" class="slide level2">
 <h2></h2>
 <p><strong>Refresher:</strong> Density functions</p>
 <p>The probability a standard normal random variable takes on a value between -1.96 and 1.96: <span class="math inline">\(\mathop{\text{P}}\left(-1.96 \leq X \leq 1.96\right) = 0.95\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/example-%20pdf%202-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-17" class="slide level2">
+<section id="section-15" class="slide level2">
 <h2></h2>
 <p><strong>Refresher:</strong> Density functions</p>
 <p>The probability a standard normal random variable takes on a value beyond 2: <span class="math inline">\(\mathop{\text{P}}\left(X &gt; 2\right) = 0.023\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/example-%20pdf%203-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-18" class="slide level2">
+<section id="section-16" class="slide level2">
 <h2></h2>
 <p>Imagine we are trying to estimate an unknown parameter <span class="math inline">\(\beta\)</span>, and we know the distributions of three competing estimators. Which one would we want? How would we decide?</p>
 
 <img data-src="02-review_files/figure-revealjs/competing%20pdfs-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-19" class="slide level2">
+<section id="section-17" class="slide level2">
 <h2></h2>
 <p><strong>Question:</strong> What properties might we care about for an estimator?</p>
-<p>–</p>
 <p><strong>Answer one: Bias.</strong></p>
 <p>On average (after <em>many</em> samples), does the estimator tend toward the correct value?</p>
 <p><strong>More formally:</strong> Does the mean of estimator’s distribution equal the parameter it estimates?</p>
 <p><span class="math display">\[ \mathop{\text{Bias}}_\beta \left( \hat{\beta} \right) = \mathop{\boldsymbol{E}}\left[ \hat{\beta} \right] - \beta \]</span></p>
 </section>
-<section id="section-20" class="slide level2">
+<section id="section-18" class="slide level2">
 <h2></h2>
 <p><strong>Answer one: Bias.</strong></p>
-<p>.pull-left[</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <p><strong>Unbiased estimator:</strong> <span class="math inline">\(\mathop{\boldsymbol{E}}\left[ \hat{\beta} \right] = \beta\)</span></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -841,9 +797,7 @@ Zahid Asghar
 </div>
 </div>
 </div>
-<p>]</p>
-<p>–</p>
-<p>.pull-right[</p>
+</div><div class="column" style="width:50%;">
 <p><strong>Biased estimator:</strong> <span class="math inline">\(\mathop{\boldsymbol{E}}\left[ \hat{\beta} \right] \neq \beta\)</span></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -854,22 +808,23 @@ Zahid Asghar
 </div>
 </div>
 </div>
-<p>]</p>
+</div>
+</div>
 </section>
-<section id="section-21" class="slide level2">
+<section id="section-19" class="slide level2">
 <h2></h2>
 <p><strong>Answer two: Variance.</strong></p>
 <p>The central tendencies (means) of competing distributions are not the only things that matter. We also care about the <strong>variance</strong> of an estimator.</p>
 <p><span class="math display">\[ \mathop{\text{Var}} \left( \hat{\beta} \right) = \mathop{\boldsymbol{E}}\left[ \left( \hat{\beta} - \mathop{\boldsymbol{E}}\left[ \hat{\beta} \right] \right)^2 \right] \]</span></p>
 <p>Lower variance estimators mean we get estimates closer to the mean in each sample.</p>
 </section>
-<section id="section-22" class="slide level2">
+<section id="section-20" class="slide level2">
 <h2></h2>
 <p><strong>Answer two: Variance.</strong></p>
 
 <img data-src="02-review_files/figure-revealjs/variance%20pdf-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-23" class="slide level2">
-<h2></h2>
+<section class="slide level2">
+
 <p><strong>Answer one: Bias.</strong></p>
 <p><strong>Answer two: Variance.</strong></p>
 <p><strong>Subtlety:</strong> The bias-variance tradeoff.</p>
@@ -954,12 +909,12 @@ Zahid Asghar
 <section id="graphically" class="slide level2">
 <h2>Graphically</h2>
 </section>
-<section id="section-24" class="slide level2">
+<section id="section-21" class="slide level2">
 <h2></h2>
 <p>Valid exogeneity, <em>i.e.</em>, <span class="math inline">\(\mathop{E}\left[ u \mid X \right] = 0\)</span></p>
 
 <img data-src="02-review_files/figure-revealjs/ex_good_exog-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-25" class="slide level2">
+<section id="section-22" class="slide level2">
 <h2></h2>
 <p>Invalid exogeneity, <em>i.e.</em>, <span class="math inline">\(\mathop{E}\left[ u \mid X \right] \neq 0\)</span></p>
 
@@ -993,14 +948,14 @@ Zahid Asghar
 <p>Now we just need to formalize what a “nice job” actually means.</p>
 <p>.footnote[ .pink[†]: Except when we run the simulation ourselves—which is why we like simulations.]</p>
 </section>
-<section id="section-26" class="slide level2">
+<section id="section-23" class="slide level2">
 <h2></h2>
 <p>First off, we will estimate the variance of <span class="math inline">\(u_i\)</span> (recall: <span class="math inline">\(\mathop{\text{Var}} \left( u_i \right) = \sigma^2\)</span>) using our squared errors, <em>i.e.</em>,</p>
 <p><span class="math display">\[ s^2 = \dfrac{\sum_i e_i^2}{n - k} \]</span></p>
 <p>where <span class="math inline">\(k\)</span> gives the number of slope terms and intercepts that we estimate (<em>e.g.</em>, <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> would give <span class="math inline">\(k=2\)</span>).</p>
 <p><span class="math inline">\(s^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>.</p>
 </section>
-<section id="section-27" class="slide level2">
+<section id="section-24" class="slide level2">
 <h2></h2>
 <p>You then showed that the variance of <span class="math inline">\(\hat{\beta}_1\)</span> (for simple linear regression) is</p>
 <p><span class="math display">\[ \mathop{\text{Var}} \left( \hat{\beta}_1 \right) = \dfrac{s^2}{\sum_i \left( x_i - \overline{x} \right)^2} \]</span></p>
@@ -1010,15 +965,15 @@ Zahid Asghar
 <li>decreases as the variance of <span class="math inline">\(x\)</span> increases</li>
 </ol>
 </section>
-<section id="section-28" class="slide level2">
+<section id="section-25" class="slide level2">
 <h2></h2>
 <p><em>More common:</em> The <strong>standard error</strong> of <span class="math inline">\(\hat{\beta}_1\)</span></p>
 <p><span class="math display">\[ \mathop{\hat{\text{SE}}} \left( \hat{\beta}_1 \right) = \sqrt{\dfrac{s^2}{\sum_i \left( x_i - \overline{x} \right)^2}} \]</span></p>
 <p><em>Recall:</em> The standard error of an estimator is the standard deviation of the estimator’s distribution.</p>
 </section>
-<section id="section-29" class="slide level2">
+<section id="section-26" class="slide level2">
 <h2></h2>
-<p>Standard error output is standard in .mono[R]’s <code>lm</code>:</p>
+<p>Standard error output is standard in <span style="color:blue;">R</span>’s <code>lm</code>:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 2 × 5
@@ -1029,7 +984,7 @@ Zahid Asghar
 </div>
 </div>
 </section>
-<section id="section-30" class="slide level2">
+<section id="section-27" class="slide level2">
 <h2></h2>
 <p>We use the standard error of <span class="math inline">\(\hat{\beta}_1\)</span>, along with <span class="math inline">\(\hat{\beta}_1\)</span> itself, to learn about the parameter <span class="math inline">\(\beta_1\)</span>.</p>
 <p>After deriving the distribution of <span class="math inline">\(\hat{\beta}_1\)</span>,<sup>.pink[†]</sup> we have two (related) options for formal statistical inference (learning) about our unknown parameter <span class="math inline">\(\beta_1\)</span>:</p>
@@ -1047,11 +1002,11 @@ Zahid Asghar
 <p>We construct <span class="math inline">\((1-\alpha)\)</span>-level confidence intervals for <span class="math inline">\(\beta_1\)</span> <span class="math display">\[ \hat{\beta}\_1 \pm t\_{\alpha/2,\text{df}} \, \mathop{\hat{\text{SE}}} \left( \hat{\beta}\_1 \right) \]</span></p>
 <p><span class="math inline">\(t_{\alpha/2,\text{df}}\)</span> denotes the <span class="math inline">\(\alpha/2\)</span> quantile of a <span class="math inline">\(t\)</span> dist. with <span class="math inline">\(n-k\)</span> degrees of freedom.</p>
 </section>
-<section id="section-31" class="slide level2">
+<section id="section-28" class="slide level2">
 <h2></h2>
 <p>For example, 100 obs., two coefficients (<em>i.e.</em>, <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1 \implies k = 2\)</span>), and <span class="math inline">\(\alpha = 0.05\)</span> (for a 95% confidence interval) gives us <span class="math inline">\(t_{0.025,\,98} = -1.98\)</span></p>
 </section>
-<section id="section-32" class="slide level2">
+<section id="section-29" class="slide level2">
 <h2></h2>
 <p><strong>Example:</strong></p>
 <div class="cell" data-layout-align="center" data-highlight.output="5">
@@ -1083,7 +1038,7 @@ Zahid Asghar
 <p>–</p>
 <p>Now back to our simulation…</p>
 </section>
-<section id="section-33" class="slide level2">
+<section id="section-30" class="slide level2">
 <h2></h2>
 <p>We drew 10,000 samples (each of size <span class="math inline">\(n = 30\)</span>) from our population and estimated our regression model for each of these simulations:</p>
 <p><span class="math display">\[ y_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + e_i \]</span></p>
@@ -1092,7 +1047,7 @@ Zahid Asghar
 </center>
 <p>Now, let’s estimate 95% confidence intervals for each of these intervals…</p>
 </section>
-<section id="section-34" class="slide level2">
+<section id="section-31" class="slide level2">
 <h2></h2>
 <p><strong>From our previous simulation:</strong> 97.9% of 95% confidences intervals contain the true parameter value of <span class="math inline">\(\beta_1\)</span>.</p>
 
@@ -1115,7 +1070,7 @@ Zahid Asghar
 <li>Do air quality standards <strong>increase health</strong> and/or <strong>reduce jobs</strong>?</li>
 </ul>
 </section>
-<section id="section-35" class="slide level2">
+<section id="section-32" class="slide level2">
 <h2></h2>
 <p>Hypothesis testing relies upon very similar results and intuition.</p>
 <p>While uncertainty certainly exists, we can still build <em>reliable</em> statistical tests (rejecting or failing to reject a posited hypothesis).</p>
@@ -1125,7 +1080,7 @@ Zahid Asghar
 <p><span class="math display">\[ t_\text{stat} = \dfrac{\hat{\beta}_1 - c}{\mathop{\hat{\text{SE}}} \left( \hat{\beta}_1 \right)} \]</span></p>
 <p>follows the <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-k\)</span> degrees of freedom.</p>
 </section>
-<section id="section-36" class="slide level2">
+<section id="section-33" class="slide level2">
 <h2></h2>
 <p>For an <span class="math inline">\(\alpha\)</span>-level, <strong>two-sided</strong> test, we reject the null hypothesis (and conclude with the alternative hypothesis) when</p>
 <p><span class="math display">\[ \left|t\_\text{stat}\right| &gt; \left|t\_{1-\alpha/2,\,df}\right| \]</span></p>
@@ -1133,9 +1088,9 @@ Zahid Asghar
 <p>Alternatively, we can calculate the <strong>p-value</strong> that accompanies our test statistic, which effectively gives us the probability of seeing our test statistic <em>or a more extreme test statistic</em> if the null hypothesis were true.</p>
 <p>Very small p-values (generally &lt; 0.05) mean that it would be unlikely to see our results if the null hyopthesis were really true—we tend to reject the null for p-values below 0.05.</p>
 </section>
-<section id="section-37" class="slide level2">
+<section id="section-34" class="slide level2">
 <h2></h2>
-<p>.mono[R] and .mono[Stata] default to testing hypotheses against the value zero.</p>
+<p><span style="color:blue;">R</span> and .mono[Stata] default to testing hypotheses against the value zero.</p>
 <div class="cell" data-layout-align="center" data-highlight.output="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> pop_df) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1156,7 +1111,7 @@ Zahid Asghar
 <p>–</p>
 <p>Therefore, we .hi[reject H.sub[o]].</p>
 </section>
-<section id="section-38" class="slide level2">
+<section id="section-35" class="slide level2">
 <h2></h2>
 <p>Back to our simulation! Let’s see what our <span class="math inline">\(t\)</span> statistic is actually doing.</p>
 <p>In this situation, we can actually know (and enforce) the null hypothesis, since we generated the data.</p>
@@ -1170,7 +1125,7 @@ Zahid Asghar
 <p>The distribution of our <span class="math inline">\(t\)</span> statistics (shading the rejection regions).</p>
 
 <img data-src="02-review_files/figure-revealjs/simulation%20t%20plot-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-39" class="slide level2">
+<section id="section-36" class="slide level2">
 <h2></h2>
 <p>Correspondingly, 2.1 percent of our p-values reject the null hypothesis.</p>
 <p>The distribution of our p-values (shading the p-values below 0.05).</p>
@@ -1187,14 +1142,14 @@ Zahid Asghar
 <p>We use <span class="math inline">\(F\)</span> tests to test hypotheses that involve multiple parameters <br> (<em>e.g.</em>, <span class="math inline">\(\beta_1 = \beta_2\)</span> or <span class="math inline">\(\beta_3 + \beta_4 = 1\)</span>),</p>
 <p>rather than a single simple hypothesis <br> (<em>e.g.</em>, <span class="math inline">\(\beta_1 = 0\)</span>, for which we would just use a <span class="math inline">\(t\)</span> test).</p>
 </section>
-<section id="section-40" class="slide level2">
+<section id="section-37" class="slide level2">
 <h2></h2>
 <p><strong>Example</strong></p>
 <p>Economists love to say “Money is fungible.”</p>
 <p>Imagine that we might want to test whether money received as income actually has the same effect on consumption as money received from tax rebates/returns.</p>
 <p><span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_2 \text{Rebate}\_i + u\_i \]</span></p>
 </section>
-<section id="section-41" class="slide level2">
+<section id="section-38" class="slide level2">
 <h2></h2>
 <p><strong>Example, continued</strong></p>
 <p>We can write our null hypothesis as</p>
@@ -1202,7 +1157,7 @@ Zahid Asghar
 <p>Imposing this null hypothesis gives us the <strong>restricted model</strong></p>
 <p><span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_1 \text{Rebate}\_i + u\_i \]</span> <span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \left( \text{Income}\_{i} + \text{Rebate}\_i \right) + u\_i \]</span></p>
 </section>
-<section id="section-42" class="slide level2">
+<section id="section-39" class="slide level2">
 <h2></h2>
 <p><strong>Example, continued</strong></p>
 <p>To test the null hypothesis <span class="math inline">\(H_o :\: \beta_1 = \beta_2\)</span> against <span class="math inline">\(H_a :\: \beta_1 \neq \beta_2\)</span>, <br>we use the <span class="math inline">\(F\)</span> statistic <span class="math display">\[
@@ -1212,7 +1167,7 @@ Zahid Asghar
 \]</span> which (as its name suggests) follows the <span class="math inline">\(F\)</span> distribution with <span class="math inline">\(q\)</span> numerator degrees of freedom and <span class="math inline">\(n-k-1\)</span> denominator degrees of freedom.</p>
 <p>Here, <span class="math inline">\(q\)</span> is the number of restrictions we impose via <span class="math inline">\(H_o\)</span>.</p>
 </section>
-<section id="section-43" class="slide level2">
+<section id="section-40" class="slide level2">
 <h2></h2>
 <p><strong>Example, continued</strong></p>
 <p><span class="math inline">\(\text{SSE}_r\)</span> is the sum of squared errors (SSE) from our <strong>restricted model</strong> <span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \left( \text{Income}\_{i} + \text{Rebate}\_i \right) + u\_i \]</span></p>
@@ -1226,7 +1181,7 @@ Zahid Asghar
 \end{align}
 \]</span></p>
 </section>
-<section id="section-44" class="slide level2">
+<section id="section-41" class="slide level2">
 <h2></h2>
 <div class="footer footer-default">
 
@@ -1242,6 +1197,7 @@ Zahid Asghar
   <script src="02-review_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="02-review_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="02-review_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="02-review_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="02-review_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1263,7 +1219,8 @@ Zahid Asghar
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1284,7 +1241,7 @@ Zahid Asghar
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -1434,7 +1391,7 @@ Zahid Asghar
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
           RevealNotes,

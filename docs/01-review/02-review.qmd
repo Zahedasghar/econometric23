@@ -1,18 +1,17 @@
 ---
-title: "Metric Review"
+title: "[Metric Review]{.flow}"
 subtitle: "Econometric Methods"
 author: "Zahid Asghar"
-date: "2023-09-16"
+date: "09-10-2023"
+date-format: "DD-MM-YYYY"
 format: 
   revealjs:
-    keep-md: false
-    #theme: ['default', 'my-css.css']
-    # self_contained: true
+    theme: [default, custom.css,styles.scss]
+    chalkboard: true
+    code-fold: false
+    slide-number: c/t
 execute: 
-  freeze: true
-editor: 
-  markdown: 
-    wrap: 72
+  freeze: auto
 ---
 
 ```{r, setup, include = F}
@@ -85,26 +84,23 @@ theme_simple <- theme_bw() + theme(
 )
 ```
 
-# Prologue
-
-# .mono\[R\] showcase
-
-## New this week
 
 Because part of this course is about learning and implementing
-.mono\[R\], I'm going to share some interesting/amazing/fun applications
-of .mono\[R\].
+[R]{style=color:blue;}, I'm going to share some interesting/amazing/fun applications
+of [R]{style=color:blue;}.
 
 [**Culture of Insight
 website**](https://cultureofinsight.shinyapps.io/location_mapper/)
 
--   .mono\[R\]-based web application
+-   [R]{style=color:blue;}-based web application
 -   Maps your location data (as tracked by Google)
--   Great example of .mono\[R\]'s ability to extend beyond statistical
+-   Great example of [R]{style=color:blue;}'s ability to extend beyond statistical
     programming
 -   (Visualization matters.)
 
-[**The .mono[rayshader]
+- - -
+
+[**The [rayshader]{style=color:blue;}
 package**](https://github.com/tylermorganwall/rayshader)
 
 -   Creates really cool shaded maps (easily!)
@@ -119,23 +115,7 @@ package**](https://github.com/tylermorganwall/rayshader)
 <img src="https://raw.githack.com/tylermorganwall/rayshader/master/tools/readme/smallhobart.gif" width="500"/>
 The [rayshader](https://github.com/tylermorganwall/rayshader) package.</center>
 
-# Last Time
 
-## Motivation
-
-In our last set of slides, we
-
-1.  discussed the **motivation** for studying econometrics (metrics)
-
-2.  **introduced .mono\[R\]**---why we use it, what it can do
-
-3.  **started reviewing** material from your previous classes
-
-These notes continue the review, building the foundation for some new
-topics (soon).
-
-Normally: .mono\[R\] is [available at all academic workstations at
-UO](https://library.uoregon.edu/library-technology-services/public-info/a-software).
 
 # Review
 
@@ -294,10 +274,8 @@ theme_empty
 **Population relationship** $y_i = `r round(lm0$coefficients[1],
 2)`+`r round(lm0$coefficients[2], 2)` x_i + u_i$
 
-**Sample relationship**
-
-$\hat{y}_i = `r round(lm2$coefficients[1], 2)`+`r
-round(lm2$coefficients[2], 2)` x_i$
+**Sample relationship** $\hat{y}_i = `r round(lm2$coefficients[1],
+2)`+`r round(lm2$coefficients[2], 2)` x_i$
 :::
 :::
 
@@ -340,9 +318,9 @@ theme_empty
 ```
 
 [**Population relationship** $y_i = `r round(lm0$coefficients[1],
-2)`+`r round(lm0$coefficients[2], 2)` x_i + u_i$
+2)`+`r round(lm0$coefficients[2], 2)` x_i + u_i$]{.center}
 
-**Sample relationship** $\hat{y}_i = `r round(lm3$coefficients[1],
+[**Sample relationship** $\hat{y}_i = `r round(lm3$coefficients[1],
 2)`+`r round(lm3$coefficients[2], 2)` x_i$ ]{.center}
 :::
 :::
@@ -403,7 +381,7 @@ theme_empty
 :::
 :::
 
-## 
+- - -
 
 **Answer:** Uncertainty matters.
 
@@ -430,8 +408,8 @@ estimates.
 
 ## The estimator
 
-We can estimate a regression line in .mono\[R\] (`lm(y ~ x, my_data)`)
-and .mono\[Stata\] (`reg y x`). But where do these estimates come from?
+We can estimate a regression line in [R]{style=color:blue;} (`lm(y ~ x, my_data)`)
+ [Stata]{style=color:blue;} (`reg y x`) and [Python]{style=color:blue;} (`smf.ols(formula='y ~ x', data=my_data)`). But where do these estimates come from?
 
 A few slides back:
 
@@ -444,9 +422,7 @@ But what do we mean by "best-fit line"?
 
 **Question:** What do we mean by *best-fit line*?
 
-**Answers:**
-
--   In general (econometrics), *best-fit line* means the line that
+**Answers:**   In general (econometrics), *best-fit line* means the line that
     minimizes the sum of squared errors (SSE):
 
 [$\text{SSE} = \sum_{i = 1}^{n} e_i^2\quad$ where
@@ -469,6 +445,8 @@ theme_empty
 
 For any line $\left(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\right)$
 $\color{#ffffff}{\bigg|}$
+
+- - - 
 
 ```{r, vs lines 2, echo = F, dev = "svg", fig.height = 6}
 # Define a function
@@ -602,13 +580,13 @@ $$
 \end{aligned}
 $$
 
---
+- - -
 
 **Recall:** Minimizing a multivariate function requires (**1**) first
 derivatives equal zero (the *1.super\[st\]-order conditions*) and
 (**2**) second-order conditions (concavity).
 
-------------------------------------------------------------------------
+
 
 We're getting close. We need to **minimize SSE**. We've showed how SSE
 relates to our sample (our data: $x$ and $y$) and our estimates (*i.e.*,
@@ -626,11 +604,12 @@ $$
 \end{aligned}
 $$
 
+- - -
+
 where $\overline{x} = \frac{\sum x_i}{n}$ and
 $\overline{y} = \frac{\sum y_i}{n}$ are sample means of $x$ and $y$
 (size $n$).
 
-## 
 
 The first-order conditions state that the derivatives are equal to zero,
 so:
@@ -704,11 +683,7 @@ We now turn to the assumptions and (implied) properties of OLS.
 
 **Question:** What properties might we care about for an estimator?
 
---
-
-**Tangent:** Let's review statistical properies first.
-
-------------------------------------------------------------------------
+**Tangent:** Let's review statistical properties first.
 
 **Refresher:** Density functions
 
@@ -809,7 +784,7 @@ theme(axis.text.x = element_text(size = 20))
 
 **Question:** What properties might we care about for an estimator?
 
---
+
 
 **Answer one: Bias.**
 
@@ -825,7 +800,8 @@ $$ \mathop{\text{Bias}}_\beta \left( \hat{\beta} \right) = \mathop{\boldsymbol{E
 
 **Answer one: Bias.**
 
-.pull-left\[
+::: columns
+::: {.column width="50%"}
 
 **Unbiased estimator:**
 $\mathop{\boldsymbol{E}}\left[ \hat{\beta} \right] = \beta$
@@ -840,11 +816,9 @@ theme_simple +
 theme(axis.text.x = element_text(size = 40))
 ```
 
-\]
+:::
 
---
-
-.pull-right\[
+::: {.column width="50%"}
 
 **Biased estimator:**
 $\mathop{\boldsymbol{E}}\left[ \hat{\beta} \right] \neq \beta$
@@ -859,7 +833,9 @@ theme_simple +
 theme(axis.text.x = element_text(size = 40))
 ```
 
-\]
+:::
+:::
+
 
 ## 
 
@@ -893,7 +869,7 @@ theme_simple +
 theme(axis.text.x = element_text(size = 20))
 ```
 
-## 
+- - -
 
 **Answer one: Bias.**
 
@@ -1171,7 +1147,7 @@ of the estimator's distribution.
 
 ## 
 
-Standard error output is standard in .mono\[R\]'s `lm`:
+Standard error output is standard in [R]{style=color:blue;}'s `lm`:
 
 ```{r, se}
 tidy(lm(y ~ x, pop_df))
@@ -1372,7 +1348,7 @@ reject the null for p-values below 0.05.
 
 ## 
 
-.mono\[R\] and .mono\[Stata\] default to testing hypotheses against the
+[R]{style=color:blue;} and .mono\[Stata\] default to testing hypotheses against the
 value zero.
 
 ```{r hypothesis test, echo = T, highlight.output = 5}

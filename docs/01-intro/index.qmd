@@ -3,11 +3,14 @@ title: "Introduction and Overview"
 subtitle: "EC-613 Econometric Methods"
 author: "Zahid Asghar"
 date: "2023-09-16"
-format: revealjs
+format: 
+  revealjs:
+    chalkboard: true
+    keep-md: false
     #theme: ['default', 'my-css.css']
     # self_contained: true
 execute: 
-  freeze: auto
+  freeze: true
 ---
 
 ```{r}

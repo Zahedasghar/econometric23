@@ -4,8 +4,10 @@ format:
   html:
     theme: [default,custom.scss]
     keep-md: false
+    
 execute: 
   warning: false
+  freeze: true
 ---
 
 ## EC614: Econometric Methods
