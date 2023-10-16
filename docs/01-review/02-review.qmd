@@ -8,7 +8,7 @@ format:
   revealjs:
     theme: [default, custom.css,styles.scss]
     chalkboard: true
-    code-fold: false
+    code-fold: true
     slide-number: c/t
 execute: 
   freeze: auto
@@ -1073,11 +1073,14 @@ cond_bad
 ## Is there more?
 
 Up to this point, we know OLS has some nice properties, and we know how
-to estimate an intercept and slope coefficient via OLS.
+to estimate an intercept and slope coefficient via OLS. 
 
-Our current workflow: - Get data (points with $x$ and $y$ values) -
-Regress $y$ on $x$ - Plot the OLS line (*i.e.*,
-$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1$) - Done?
+
+Our current workflow: 
+- Get data (points with $x$ and $y$ values) 
+- Regress $y$ on $x$ - Plot the OLS line (*i.e.*,
+$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1$) 
+- Done?
 
 But how do we actually **learn** something from this exercise?
 
@@ -1096,7 +1099,8 @@ We need to be able to deal with uncertainty. Enter: **Inference.**
 
 As our previous simulation pointed out, our problem with **uncertainty**
 is that we don't know whether our sample estimate is *close* or *far*
-from the unknown population parameter.<sup>.pink\[†\]</sup>
+from the unknown population parameter. [^1]
+
 
 However, all is not lost. We can use the errors
 $\left(e_i = y_i - \hat{y}_i\right)$ to get a sense of how well our
@@ -1108,7 +1112,7 @@ and $x$.
 
 Now we just need to formalize what a "nice job" actually means.
 
-.footnote\[ .pink\[†\]: Except when we run the simulation
+[^1]: Except when we run the simulation
 ourselves---which is why we like simulations.\]
 
 ## 
@@ -1164,16 +1168,16 @@ we have two (related) options for formal statistical inference
 
 -   **Confidence intervals:** Use the estimate and its standard error to
     create an interval that, when repeated, will
-    generally<sup>.pink\[††\]</sup> contain the true parameter.
+    generally[^2] contain the true parameter.
 
 -   **Hypothesis tests:** Determine whether there is statistically
     significant evidence to reject a hypothesized value or range of
     values.
 
-.footnote\[ .pink\[†\]: *Hint:* it's normal with the mean and variance
-we've derived/discussed above) <br> .pink\[††\]: *E.g.*, Similarly
+[^2]: *Hint:* it's normal with the mean and variance
+we've derived/discussed above) <br> : *E.g.*, Similarly
 constructed 95% confidence intervals will contain the true parameter 95%
-of the time.\]
+of the time.]
 
 ## Uncertainty and inference
 
@@ -1226,21 +1230,15 @@ $\left[ 0.410,\, 0.724 \right]$.
 
 What does it mean?
 
---
-
-**Informally:** The confidence interval gives us a region (interval) in
+-   **Informally:** The confidence interval gives us a region (interval) in
 which we can place some trust (confidence) for containing the parameter.
 
---
-
-**More formally:** If repeatedly sample from our population and
+-   **More formally:** If repeatedly sample from our population and
 construct confidence intervals for each of these samples, $(1-\alpha)$
 percent of our intervals (*e.g.*, 95%) will contain the population
 parameter *somewhere in the interval*.
 
---
-
-Now back to our simulation...
+-   Now back to our simulation...
 
 ## 
 
@@ -1300,11 +1298,14 @@ about existing theories.
 We want to test hypotheses posed by officials, politicians, economists,
 scientists, friends, weird neighbors, *etc.*
 
-.hi-slate\[Examples\]
+[Examples]{style=colore:blue;}
 
 -   Does increasing police presence **reduce crime**?
 -   Does building a giant wall **reduce crime**?
 -   Does shutting down a government **adversely affect the economy**?
+
+- - -
+
 -   Does legal cannabis **reduce drunk driving** or **reduce opiod
     use**?
 -   Do air quality standards **increase health** and/or **reduce jobs**?
@@ -1316,9 +1317,9 @@ Hypothesis testing relies upon very similar results and intuition.
 While uncertainty certainly exists, we can still build *reliable*
 statistical tests (rejecting or failing to reject a posited hypothesis).
 
---
 
-.hi-slate\[OLS *t* test\] Our (null) hypothesis states that $\beta_1$
+
+[OLS *t* test]{style=color:pink;} Our (null) hypothesis states that $\beta_1$
 equals a value $c$, *i.e.*, $H_o:\: \beta_1 = c$
 
 From OLS's properties, we can show that the test statistic
@@ -1355,19 +1356,16 @@ value zero.
 lm(y ~ x, data = pop_df) %>% tidy()
 ```
 
---
 
-H.sub\[o\]: $\beta_1 = 0$ *vs.* H.sub\[a\]: $\beta_1 \neq 0$
+$H_0:\beta_1 = 0$ *vs.* $H_1: \beta_1 \neq 0$
 
---
+
 
 ## $t_\text{stat} = 7.15$ and $t_\text{0.975, 28} = `r qt(0.975, 28) %>% round(2)`$
 
 which implies *p*-value $< 0.05$
 
---
-
-Therefore, we .hi\[reject H.sub\[o\]\].
+Therefore, we reject $H_0$.
 
 ## 
 
@@ -1384,6 +1382,8 @@ then we can see how many $t$ statistics exceed our critical value
 The answer should be approximately 5 percent---our $\alpha$ level.
 
 # Uncertainty and inference
+
+## 
 
 ```{r, simulation t data, include = F}
 # Calculate test statistics
@@ -1465,9 +1465,9 @@ theme_simple
 You will sometimes see $F$ tests in econometrics.
 
 We use $F$ tests to test hypotheses that involve multiple parameters
-<br> (*e.g.*, $\beta_1 = \beta_2$ or $\beta_3 + \beta_4 = 1$),
+<br> (*e.g.*, $\beta_1 = \beta_2$ or $\beta_3 + \beta_4 = 1$),
 
-rather than a single simple hypothesis <br> (*e.g.*, $\beta_1 = 0$, for
+rather than a single simple hypothesis <br> (*e.g.*, $\beta_1 = 0$, for
 which we would just use a $t$ test).
 
 ## 
@@ -1480,7 +1480,7 @@ Imagine that we might want to test whether money received as income
 actually has the same effect on consumption as money received from tax
 rebates/returns.
 
-$$ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_2 \text{Rebate}\_i + u\_i $$
+$$ \text{Consumption}_i = \beta_0 + \beta_1 \text{Income}_{i} + \beta_2 \text{Rebate}_i + u_i $$
 
 ## 
 
@@ -1492,15 +1492,15 @@ $$ H_o:\: \beta_1 = \beta_2 \iff H_o :\: \beta_1 - \beta_2 = 0 $$
 
 Imposing this null hypothesis gives us the **restricted model**
 
-$$ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_1 \text{Rebate}\_i + u\_i $$
-$$ \text{Consumption}\_i = \beta\_0 + \beta\_1 \left( \text{Income}\_{i} + \text{Rebate}\_i \right) + u\_i $$
+$$ \text{Consumption}_i = \beta_0 + \beta_1 \text{Income}_{i} + \beta_1 \text{Rebate}_i + u_i $$
+$$ \text{Consumption}_i = \beta_0 + \beta_1 \left( \text{Income}_{i} + \text{Rebate}_i \right) + u_i $$
 
 ## 
 
 **Example, continued**
 
-To test the null hypothesis $H_o :\: \beta_1 = \beta_2$ against
-$H_a :\: \beta_1 \neq \beta_2$, <br>we use the $F$ statistic $$
+To test the null hypothesis $H_o : \beta_1 = \beta_2$ against
+$H_a : \beta_1 \neq \beta_2$, <br> we use the $F$ statistic $$
 \begin{align}
   F_{q,\,n-k-1} = \dfrac{\left(\text{SSE}_r - \text{SSE}_u\right)/q}{\text{SSE}_u/(n-k-1)}
 \end{align}
@@ -1515,18 +1515,16 @@ Here, $q$ is the number of restrictions we impose via $H_o$.
 
 $\text{SSE}_r$ is the sum of squared errors (SSE) from our **restricted
 model**
-$$ \text{Consumption}\_i = \beta\_0 + \beta\_1 \left( \text{Income}\_{i} + \text{Rebate}\_i \right) + u\_i $$
+$$ \text{Consumption}_i = \beta_0 + \beta_1 \left( \text{Income}_{i} + \text{Rebate}_i \right) + u_i $$
 
 and $\text{SSE}_u$ is the sum of squared errors (SSE) from our
 **unrestricted model**
-$$ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_2 \text{Rebate}\_i + u\_i $$
-
---
+$$ \text{Consumption}_i = \beta_0 + \beta_1 \text{Income}_{i} + \beta_2 \text{Rebate}_i + u_i $$
 
 An $F$ test compares the unrestricted model's performance to the
 restricted model's performance using their $\text{SSE}$s.
 
---
+- - -
 
 $$
 \begin{align}

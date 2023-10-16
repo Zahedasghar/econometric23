@@ -942,12 +942,11 @@ Zahid Asghar
 </section>
 <section id="learning-from-our-errors" class="slide level2">
 <h2>Learning from our errors</h2>
-<p>As our previous simulation pointed out, our problem with <strong>uncertainty</strong> is that we don’t know whether our sample estimate is <em>close</em> or <em>far</em> from the unknown population parameter.<sup>.pink[†]</sup></p>
+<p>As our previous simulation pointed out, our problem with <strong>uncertainty</strong> is that we don’t know whether our sample estimate is <em>close</em> or <em>far</em> from the unknown population parameter. <sup>1</sup></p>
 <p>However, all is not lost. We can use the errors <span class="math inline">\(\left(e_i = y_i - \hat{y}_i\right)\)</span> to get a sense of how well our model explains the observed variation in <span class="math inline">\(y\)</span>.</p>
 <p>When our model appears to be doing a “nice” job, we might be a little more confident in using it to learn about the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>.</p>
 <p>Now we just need to formalize what a “nice job” actually means.</p>
-<p>.footnote[ .pink[†]: Except when we run the simulation ourselves—which is why we like simulations.]</p>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Except when we run the simulation ourselves—which is why we like simulations.]</p></li></ol></aside></section>
 <section id="section-23" class="slide level2">
 <h2></h2>
 <p>First off, we will estimate the variance of <span class="math inline">\(u_i\)</span> (recall: <span class="math inline">\(\mathop{\text{Var}} \left( u_i \right) = \sigma^2\)</span>) using our squared errors, <em>i.e.</em>,</p>
@@ -989,11 +988,10 @@ Zahid Asghar
 <p>We use the standard error of <span class="math inline">\(\hat{\beta}_1\)</span>, along with <span class="math inline">\(\hat{\beta}_1\)</span> itself, to learn about the parameter <span class="math inline">\(\beta_1\)</span>.</p>
 <p>After deriving the distribution of <span class="math inline">\(\hat{\beta}_1\)</span>,<sup>.pink[†]</sup> we have two (related) options for formal statistical inference (learning) about our unknown parameter <span class="math inline">\(\beta_1\)</span>:</p>
 <ul>
-<li><p><strong>Confidence intervals:</strong> Use the estimate and its standard error to create an interval that, when repeated, will generally<sup>.pink[††]</sup> contain the true parameter.</p></li>
+<li><p><strong>Confidence intervals:</strong> Use the estimate and its standard error to create an interval that, when repeated, will generally<sup>1</sup> contain the true parameter.</p></li>
 <li><p><strong>Hypothesis tests:</strong> Determine whether there is statistically significant evidence to reject a hypothesized value or range of values.</p></li>
 </ul>
-<p>.footnote[ .pink[†]: <em>Hint:</em> it’s normal with the mean and variance we’ve derived/discussed above) <br> .pink[††]: <em>E.g.</em>, Similarly constructed 95% confidence intervals will contain the true parameter 95% of the time.]</p>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p><em>Hint:</em> it’s normal with the mean and variance we’ve derived/discussed above) <br> : <em>E.g.</em>, Similarly constructed 95% confidence intervals will contain the true parameter 95% of the time.]</p></li></ol></aside></section>
 <section id="uncertainty-and-inference-1" class="slide level2">
 <h2>Uncertainty and inference</h2>
 </section>
@@ -1010,7 +1008,10 @@ Zahid Asghar
 <h2></h2>
 <p><strong>Example:</strong></p>
 <div class="cell" data-layout-align="center" data-highlight.output="5">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> pop_df) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 2 × 5
 #&gt;   term        estimate std.error statistic  p.value
@@ -1031,12 +1032,11 @@ Zahid Asghar
 <h2>Confidence intervals</h2>
 <p>So we have a confidence interval for <span class="math inline">\(\beta_1\)</span>, <em>i.e.</em>, <span class="math inline">\(\left[ 0.410,\, 0.724 \right]\)</span>.</p>
 <p>What does it mean?</p>
-<p>–</p>
-<p><strong>Informally:</strong> The confidence interval gives us a region (interval) in which we can place some trust (confidence) for containing the parameter.</p>
-<p>–</p>
-<p><strong>More formally:</strong> If repeatedly sample from our population and construct confidence intervals for each of these samples, <span class="math inline">\((1-\alpha)\)</span> percent of our intervals (<em>e.g.</em>, 95%) will contain the population parameter <em>somewhere in the interval</em>.</p>
-<p>–</p>
-<p>Now back to our simulation…</p>
+<ul>
+<li><p><strong>Informally:</strong> The confidence interval gives us a region (interval) in which we can place some trust (confidence) for containing the parameter.</p></li>
+<li><p><strong>More formally:</strong> If repeatedly sample from our population and construct confidence intervals for each of these samples, <span class="math inline">\((1-\alpha)\)</span> percent of our intervals (<em>e.g.</em>, 95%) will contain the population parameter <em>somewhere in the interval</em>.</p></li>
+<li><p>Now back to our simulation…</p></li>
+</ul>
 </section>
 <section id="section-30" class="slide level2">
 <h2></h2>
@@ -1061,11 +1061,16 @@ Zahid Asghar
 <h2>Hypothesis testing</h2>
 <p>In many applications, we want to know more than a point estimate or a range of values. We want to know what our statistical evidence says about existing theories.</p>
 <p>We want to test hypotheses posed by officials, politicians, economists, scientists, friends, weird neighbors, <em>etc.</em></p>
-<p>.hi-slate[Examples]</p>
+<p><span style="colore:blue;">Examples</span></p>
 <ul>
 <li>Does increasing police presence <strong>reduce crime</strong>?</li>
 <li>Does building a giant wall <strong>reduce crime</strong>?</li>
 <li>Does shutting down a government <strong>adversely affect the economy</strong>?</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<ul>
 <li>Does legal cannabis <strong>reduce drunk driving</strong> or <strong>reduce opiod use</strong>?</li>
 <li>Do air quality standards <strong>increase health</strong> and/or <strong>reduce jobs</strong>?</li>
 </ul>
@@ -1074,8 +1079,7 @@ Zahid Asghar
 <h2></h2>
 <p>Hypothesis testing relies upon very similar results and intuition.</p>
 <p>While uncertainty certainly exists, we can still build <em>reliable</em> statistical tests (rejecting or failing to reject a posited hypothesis).</p>
-<p>–</p>
-<p>.hi-slate[OLS <em>t</em> test] Our (null) hypothesis states that <span class="math inline">\(\beta_1\)</span> equals a value <span class="math inline">\(c\)</span>, <em>i.e.</em>, <span class="math inline">\(H_o:\: \beta_1 = c\)</span></p>
+<p><span style="color:pink;">OLS <em>t</em> test</span> Our (null) hypothesis states that <span class="math inline">\(\beta_1\)</span> equals a value <span class="math inline">\(c\)</span>, <em>i.e.</em>, <span class="math inline">\(H_o:\: \beta_1 = c\)</span></p>
 <p>From OLS’s properties, we can show that the test statistic</p>
 <p><span class="math display">\[ t_\text{stat} = \dfrac{\hat{\beta}_1 - c}{\mathop{\hat{\text{SE}}} \left( \hat{\beta}_1 \right)} \]</span></p>
 <p>follows the <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-k\)</span> degrees of freedom.</p>
@@ -1092,7 +1096,10 @@ Zahid Asghar
 <h2></h2>
 <p><span style="color:blue;">R</span> and .mono[Stata] default to testing hypotheses against the value zero.</p>
 <div class="cell" data-layout-align="center" data-highlight.output="5">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> pop_df) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; # A tibble: 2 × 5
 #&gt;   term        estimate std.error statistic  p.value
@@ -1101,15 +1108,12 @@ Zahid Asghar
 #&gt; 2 x              0.567    0.0793      7.15 1.59e-10</code></pre>
 </div>
 </div>
-<p>–</p>
-<p>H.sub[o]: <span class="math inline">\(\beta_1 = 0\)</span> <em>vs.</em> H.sub[a]: <span class="math inline">\(\beta_1 \neq 0\)</span></p>
-<p>–</p>
+<p><span class="math inline">\(H_0:\beta_1 = 0\)</span> <em>vs.</em> <span class="math inline">\(H_1: \beta_1 \neq 0\)</span></p>
 </section>
 <section id="t_textstat-7.15-and-t_text0.975-28-2.05" class="slide level2">
 <h2><span class="math inline">\(t_\text{stat} = 7.15\)</span> and <span class="math inline">\(t_\text{0.975, 28} = 2.05\)</span></h2>
 <p>which implies <em>p</em>-value <span class="math inline">\(&lt; 0.05\)</span></p>
-<p>–</p>
-<p>Therefore, we .hi[reject H.sub[o]].</p>
+<p>Therefore, we reject <span class="math inline">\(H_0\)</span>.</p>
 </section>
 <section id="section-35" class="slide level2">
 <h2></h2>
@@ -1121,11 +1125,15 @@ Zahid Asghar
 <section>
 <section id="uncertainty-and-inference-4" class="title-slide slide level1 center">
 <h1>Uncertainty and inference</h1>
+
+</section>
+<section id="section-36" class="slide level2">
+<h2></h2>
 <p>In our simulation, 2.1 percent of our <span class="math inline">\(t\)</span> statistics reject the null hypothesis.</p>
 <p>The distribution of our <span class="math inline">\(t\)</span> statistics (shading the rejection regions).</p>
 
 <img data-src="02-review_files/figure-revealjs/simulation%20t%20plot-1.svg" width="1008" class="r-stretch quarto-figure-center"></section>
-<section id="section-36" class="slide level2">
+<section id="section-37" class="slide level2">
 <h2></h2>
 <p>Correspondingly, 2.1 percent of our p-values reject the null hypothesis.</p>
 <p>The distribution of our p-values (shading the p-values below 0.05).</p>
@@ -1139,54 +1147,56 @@ Zahid Asghar
 <section id="f-tests" class="slide level2">
 <h2><em>F</em> tests</h2>
 <p>You will sometimes see <span class="math inline">\(F\)</span> tests in econometrics.</p>
-<p>We use <span class="math inline">\(F\)</span> tests to test hypotheses that involve multiple parameters <br> (<em>e.g.</em>, <span class="math inline">\(\beta_1 = \beta_2\)</span> or <span class="math inline">\(\beta_3 + \beta_4 = 1\)</span>),</p>
-<p>rather than a single simple hypothesis <br> (<em>e.g.</em>, <span class="math inline">\(\beta_1 = 0\)</span>, for which we would just use a <span class="math inline">\(t\)</span> test).</p>
+<p>We use <span class="math inline">\(F\)</span> tests to test hypotheses that involve multiple parameters <br> (<em>e.g.</em>, <span class="math inline">\(\beta_1 = \beta_2\)</span> or <span class="math inline">\(\beta_3 + \beta_4 = 1\)</span>),</p>
+<p>rather than a single simple hypothesis <br> (<em>e.g.</em>, <span class="math inline">\(\beta_1 = 0\)</span>, for which we would just use a <span class="math inline">\(t\)</span> test).</p>
 </section>
-<section id="section-37" class="slide level2">
+<section id="section-38" class="slide level2">
 <h2></h2>
 <p><strong>Example</strong></p>
 <p>Economists love to say “Money is fungible.”</p>
 <p>Imagine that we might want to test whether money received as income actually has the same effect on consumption as money received from tax rebates/returns.</p>
-<p><span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_2 \text{Rebate}\_i + u\_i \]</span></p>
+<p><span class="math display">\[ \text{Consumption}_i = \beta_0 + \beta_1 \text{Income}_{i} + \beta_2 \text{Rebate}_i + u_i \]</span></p>
 </section>
-<section id="section-38" class="slide level2">
+<section id="section-39" class="slide level2">
 <h2></h2>
 <p><strong>Example, continued</strong></p>
 <p>We can write our null hypothesis as</p>
 <p><span class="math display">\[ H_o:\: \beta_1 = \beta_2 \iff H_o :\: \beta_1 - \beta_2 = 0 \]</span></p>
 <p>Imposing this null hypothesis gives us the <strong>restricted model</strong></p>
-<p><span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_1 \text{Rebate}\_i + u\_i \]</span> <span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \left( \text{Income}\_{i} + \text{Rebate}\_i \right) + u\_i \]</span></p>
+<p><span class="math display">\[ \text{Consumption}_i = \beta_0 + \beta_1 \text{Income}_{i} + \beta_1 \text{Rebate}_i + u_i \]</span> <span class="math display">\[ \text{Consumption}_i = \beta_0 + \beta_1 \left( \text{Income}_{i} + \text{Rebate}_i \right) + u_i \]</span></p>
 </section>
-<section id="section-39" class="slide level2">
+<section id="section-40" class="slide level2">
 <h2></h2>
 <p><strong>Example, continued</strong></p>
-<p>To test the null hypothesis <span class="math inline">\(H_o :\: \beta_1 = \beta_2\)</span> against <span class="math inline">\(H_a :\: \beta_1 \neq \beta_2\)</span>, <br>we use the <span class="math inline">\(F\)</span> statistic <span class="math display">\[
+<p>To test the null hypothesis <span class="math inline">\(H_o : \beta_1 = \beta_2\)</span> against <span class="math inline">\(H_a : \beta_1 \neq \beta_2\)</span>, <br> we use the <span class="math inline">\(F\)</span> statistic <span class="math display">\[
 \begin{align}
   F_{q,\,n-k-1} = \dfrac{\left(\text{SSE}_r - \text{SSE}_u\right)/q}{\text{SSE}_u/(n-k-1)}
 \end{align}
 \]</span> which (as its name suggests) follows the <span class="math inline">\(F\)</span> distribution with <span class="math inline">\(q\)</span> numerator degrees of freedom and <span class="math inline">\(n-k-1\)</span> denominator degrees of freedom.</p>
 <p>Here, <span class="math inline">\(q\)</span> is the number of restrictions we impose via <span class="math inline">\(H_o\)</span>.</p>
 </section>
-<section id="section-40" class="slide level2">
+<section id="section-41" class="slide level2">
 <h2></h2>
 <p><strong>Example, continued</strong></p>
-<p><span class="math inline">\(\text{SSE}_r\)</span> is the sum of squared errors (SSE) from our <strong>restricted model</strong> <span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \left( \text{Income}\_{i} + \text{Rebate}\_i \right) + u\_i \]</span></p>
-<p>and <span class="math inline">\(\text{SSE}_u\)</span> is the sum of squared errors (SSE) from our <strong>unrestricted model</strong> <span class="math display">\[ \text{Consumption}\_i = \beta\_0 + \beta\_1 \text{Income}\_{i} + \beta\_2 \text{Rebate}\_i + u\_i \]</span></p>
-<p>–</p>
+<p><span class="math inline">\(\text{SSE}_r\)</span> is the sum of squared errors (SSE) from our <strong>restricted model</strong> <span class="math display">\[ \text{Consumption}_i = \beta_0 + \beta_1 \left( \text{Income}_{i} + \text{Rebate}_i \right) + u_i \]</span></p>
+<p>and <span class="math inline">\(\text{SSE}_u\)</span> is the sum of squared errors (SSE) from our <strong>unrestricted model</strong> <span class="math display">\[ \text{Consumption}_i = \beta_0 + \beta_1 \text{Income}_{i} + \beta_2 \text{Rebate}_i + u_i \]</span></p>
 <p>An <span class="math inline">\(F\)</span> test compares the unrestricted model’s performance to the restricted model’s performance using their <span class="math inline">\(\text{SSE}\)</span>s.</p>
-<p>–</p>
+</section>
+<section class="slide level2">
+
 <p><span class="math display">\[
 \begin{align}
   F_\text{stat} = \dfrac{\left(\text{SSE}_r - \text{SSE}_u\right)/q}{\text{SSE}_u/(n-k-1)} \sim F_{q,\,n-k-1}
 \end{align}
 \]</span></p>
 </section>
-<section id="section-41" class="slide level2">
+<section id="section-42" class="slide level2">
 <h2></h2>
 <div class="footer footer-default">
 
 </div>
 </section></section>
+
     </div>
   </div>
 
