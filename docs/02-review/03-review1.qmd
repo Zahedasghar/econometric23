@@ -519,7 +519,7 @@ theme_pander(base_size = 18)
 
 ##
 
-**One solution:** .pink[Adjusted] $\color{#e64173}{R^2}$
+**One solution:** [Adjusted]{styple=color:pink;} $\color{#e64173}{R^2}$
 
 ```{r, adjusted r2 plot, echo = F, dev = "svg", fig.height = 6.25}
 #| eval: false
