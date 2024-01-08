@@ -1,0 +1,449 @@
+
+
+```{r}
+library(haven) ## Package required to upload STATA/SPSS data
+library(tidyverse)
+
+library(janitor)
+library( Ecdat)
+
+data("Caschool")
+#caschool <- read_dta("caschool.dta") ## Read Data
+
+caschool <- Caschool
+
+caschool |> dim()
+```
+
+
+
+
+```{r}
+caschool |> glimpse()
+```
+
+save(cashool,file="data/caschool.RData")
+
+```{r}
+## Save as csv
+caschool_save <- write_csv(caschool, file="data/caschool.csv")
+
+## Save as SPSS
+
+#caschool_save <- write_sav(caschool, file="caschool.sav")
+
+## Save as STAT
+
+#caschool_save <- write_dta(caschool, file="caschool.dta")
+
+```
+
+
+```{r}
+caschool |> slice(401:402) ## First 10 rows of a tibble
+
+```
+
+```{r}
+
+head(caschool) ## Top 6 rows
+
+```
+
+```{r}
+
+colnames(caschool)
+
+## Select to retain few needed columns
+caschool |> select(testscr, str, avginc, elpct, mealpct,
+                   calwpct) -> caschool_sm ## To select only required variables
+
+caschool_sm |> summarise(across(where(is.numeric),median,na.rm=TRUE))
+
+
+```
+
+
+```{r}
+
+
+caschool_sm %>%
+  summarise(across(where(is.numeric), 
+    list(Mean = ~mean(.x, na.rm = TRUE),
+         Variance = ~var(.x, na.rm = TRUE),
+         SD = ~sd(.x, na.rm = TRUE),
+         Min = ~min(.x, na.rm = TRUE),
+         Max = ~max(.x, na.rm = TRUE),
+         N = ~sum(!is.na(.x)))
+  ))
+
+```
+
+```{r}
+caschool_sm |>  
+summarise(
+  across(
+    where(is.numeric),
+    .fns = c(
+      n = ~sum(!is.na(.)),
+      mean = \(x) mean(x, na.rm = TRUE),
+      variance =\(x) var(x, na.rm = TRUE),
+      min = \(x) min(x, na.rm = TRUE),
+      max = \(x) max(x, na.rm = TRUE)
+    ),
+    .names = '{.col}----{.fn}'
+  )
+) |> 
+  pivot_longer(
+    cols = everything(),
+    names_sep = '----',
+    names_to = c('variable', 'stat')
+  )  -> ardf
+
+
+ardf |> pivot_wider(names_from = stat, values_from = value) ->wide_data
+wide_data
+```
+
+
+
+```{r}
+# Optional: Rename columns
+colnames(wide_data) <- c("Variable", "Observations","Mean", "Variance", "Min", "Max")
+
+# Reset row names to NULL
+row.names(wide_data) <- NULL
+
+wide_data 
+
+# Assuming 'wide_data' is your data frame
+rounded_data <- wide_data
+
+# Identify numeric columns to round
+numeric_columns <- sapply(rounded_data, is.numeric)
+
+# Round numeric columns to 2 decimal places
+rounded_data[numeric_columns] <- lapply(rounded_data[numeric_columns], function(x) round(x, 2))
+
+rounded_data
+```
+
+
+
+
+```{r}
+library(gt)
+library(gtExtras)
+rounded_data |> gt() |> fmt_number(
+  decimals = 2
+) |> gt_theme_guardian() |> tab_header("Descriptive Analysis of caschool")
+```
+
+
+
+
+```{r}
+#library(dataxray)
+
+#caschool_sm |> make_xray() |>  view_xray()
+
+```
+
+
+```{r}
+#| eval: false
+library(gt)
+library(gtsummary)
+library(gtExtras)
+
+caschool_sm |> gt_plt_summary() ## summary and plot
+
+```
+
+
+```{r}
+
+library(skimr)
+caschool_sm |> skim()
+
+library(modelsummary)  ## For presenting regression results in nice tables
+library(rstatix)  ## For testing of hypothesis
+```
+
+
+
+
+
+```{r}
+
+caschool_sm <- caschool_sm %>%
+  mutate(
+    elq1 = case_when(
+      elpct<1.9 ~1,TRUE~0),
+      elq2=case_when(elpct >= 1.9 & elpct < 8.8 ~ 1,
+      TRUE ~ 0
+    ),
+    elq3 = case_when(
+      elpct >= 8.8 & elpct < 23 ~ 1,
+      TRUE ~ 0
+    ),
+    elq4 = case_when(
+      elpct >= 23 ~ 1,
+      TRUE ~ 0
+    ),
+    str_20 = case_when(
+      str < 20 ~ 1,
+      TRUE ~ 0
+    )
+  )
+
+```
+
+
+
+
+
+
+```{r}
+
+caschool_sm |> mutate(elpct = case_when(elpct<=1.9 ~ "low",
+                                        elpct >=1.9 & elpct <8.8  ~ "medium",
+                                        elpct >=8.8 & elpct <23  ~ "high",
+                                        elpct >23~"very high")) -> caschool_sm
+
+## Testing of hypothesis
+library(rstatix)
+
+overall<- caschool_sm |> t_test(testscr~str_20,var.equal=T)
+overall
+
+el_1.9<-caschool_sm |> filter(elq1==1) |> t_test(testscr~str_20,var.equal=T)
+
+el_8.8<-caschool_sm |> filter(elq2==1) |> t_test(testscr~str_20,var.equal=T)
+
+el_23<-caschool_sm |> filter(elq3==1) |> t_test(testscr~str_20,var.equal=T)
+
+el_gr23<-caschool_sm |> filter(elq4==1) |> t_test(testscr~str_20,var.equal=T)
+
+table_6.1 <- bind_rows(overall, el_8.8, el_23, el_gr23)
+
+df_tbl<- as_tibble(table_6.1)
+
+df_tbl
+
+df_tbl<-df_tbl |> select(-".y.")
+
+df_tbl$statistic <- round(df_tbl$statistic, 2)
+
+df_tbl$p <- round(df_tbl$p, 3)
+
+library(gt)
+library(gtExtras)
+
+df_tbl |> gt() |> gt_theme_guardian()
+```
+
+
+
+```{r}
+lm(testscr~str,data=caschool_sm)
+
+summary(lm(testscr~str,data=caschool_sm))
+
+lm(testscr ~ str + elpct, data = caschool_sm) |> tidy()
+```
+
+
+
+```{r}
+
+models <- list(
+  mod1 <- lm(testscr ~ str, data = caschool_sm),
+  mod2 <- lm(testscr ~ str + elpct, data = caschool_sm)
+)
+
+
+modelsummary(
+  models,
+  fmt = 2,
+  estimate  = c(
+    "{estimate} ({std.error}){stars}"),
+  statistic = NULL)
+```
+
+# estimate the multiple regression model
+
+
+
+```{r}
+library(car)
+
+model <- lm(testscr ~ str + elpct + mealpct, data = caschool_sm)
+
+# execute the function on the model object and provide both linear restrictions
+# to be tested as strings
+lm(testscr~mealpct, data=caschool_sm)
+
+```
+
+```{r}
+library(lmtest)
+
+linearHypothesis(model, c("str=0", "mealpct=0"))
+
+
+#linearHypothesis(model,c('elpct+mealpct=1'))
+```
+
+
+
+## Correlations
+```{r}
+library(corrr)
+
+caschool_sm |> select(testscr, str, elpct, mealpct, calwpct) |>
+  correlate()
+
+```
+
+## gt, gtsummary, gtExtras
+
+
+```{r}
+caschool_sm |> select(testscr, str, elpct, mealpct, calwpct) |>
+  correlate()  |> gt() |> fmt_number(columns = 2:5, decimals = 2)
+## title of table
+caschool_sm |> select(testscr, str, elpct, mealpct, calwpct) |>
+  correlate()   |> gt()|> fmt_number(columns = 2:5, decimals = 2) |>
+  tab_header(title="Correlation between variables")
+
+```
+
+## theme of a table
+
+```{r}
+library(gtExtras)
+
+caschool_sm |> select(testscr, str, elpct, mealpct, calwpct) |>
+  correlate()  |> gt()|> fmt_number(columns = 2:5, decimals = 2) |>
+  tab_header(title="Correlation between variables") |>
+  gt_theme_nytimes()
+
+## Correlation plot plot
+caschool_sm |> select(testscr, str, elpct, mealpct, calwpct) |>
+  correlate() |>
+  autoplot() + geom_text(aes(label = round(r, digits = 2)), size = 4)
+```
+
+
+
+## Plots (Arrange plots easily)
+
+```{r}
+p1<- ggplot(caschool_sm)+aes(x=elpct,y=testscr)+geom_point()+
+  labs(x="percent",y="Test Score")
+p2<- ggplot(caschool_sm)+aes(x=mealpct,y=testscr)+geom_point()+
+  labs(x="percent",y="Test Score")
+p3<- ggplot(caschool_sm)+aes(x=calwpct,y=testscr)+geom_point()+
+  labs(x="percent",y="Test Score")
+
+## Plots in a row
+library(patchwork)
+
+p1+p2+p3
+
+```
+
+
+
+## Regression Models
+
+
+```{r}
+m1<-lm(testscr~str,data = caschool_sm)
+m2<-lm(testscr~str+elpct,data = caschool_sm)
+m3<-lm(testscr~str+elpct+mealpct,data = caschool_sm)
+m4<-lm(testscr~str+elpct+calwpct,data = caschool_sm)
+m5<-lm(testscr~str+elpct+mealpct+calwpct,data = caschool_sm)
+library(fixest)
+library(modelsummary)
+models<-list(m1,m2,m3,m4,m5)
+#etable(m1,m2,m3,m4)
+modelsummary(models,estimate = "{estimate}{stars}", output="huxtable")
+#modelsummary(models, fmt=4)
+#modelsummary(models,
+#            statistic = "{std.error} ({p.value})")
+#modelsummary(models,
+#            estimate = "{estimate}{stars}",
+#           gof_omit = ".*")
+```
+
+
+```{r}
+ggplot(caschool_sm) +aes(x=str,y=testscr)+geom_point()
+```
+
+
+```{r}
+caschool_sm |> mutate(elpct=as_factor(elpct)) -> caschool_sm
+
+ggplot(caschool_sm) +aes(x=str,y=testscr, color=elpct)+geom_point()+  facet_wrap(~elpct)
+
+```
+
+
+
+
+```{r}
+#install.packages("tidymodels")
+library(tidymodels)
+library(tidyverse)
+library(gt)
+library(here)
+
+tbl_one <- linear_reg() |> 
+  set_engine("lm") |> 
+  set_mode("regression") |> 
+  fit(testscr~str+mealpct+elpct,data=caschool_sm) |> 
+  tidy()
+
+# Creating table function 
+gt_table_function <- function(regression_table,r_square, adj_rsquare,prob_f,
+                              text=""){
+  tbl <- gt(regression_table,id="two")
+
+gt_table <- tbl |> 
+  tab_header(
+    title = md("**Linear Regression Analysis**"),
+    subtitle = md("**Model: testscr~str+mealpct**")) |>
+  cols_label(term="variable",
+             estimate="Estimate",
+             std.error="Standard Error",
+             statistic="T-value",
+             p.value="P Value") |> 
+  fmt_number(
+    columns =everything(),
+    rows=everything(),
+    decimals = 2
+  ) |> 
+  fmt_auto(columns = "term") |> 
+  opt_stylize(style = 6, color = "cyan") |> 
+  opt_table_font(stack = "rounded-sans") |> 
+  tab_footnote(footnote = paste("R-Squared:", r_square)) |> 
+  tab_footnote(footnote = paste("Adj-r-squared:", adj_rsquare)) |> 
+  tab_footnote(footnote = paste("Prob(F-statistic:", prob_f)) |> 
+  tab_source_note(paste("Source:",text)) |> 
+  tab_options(table.width = pct(70)) |> 
+  opt_css(
+    css="#two gt_footnote{
+    color: black;
+    top: 310px;}"
+  )
+return(gt_table)
+}
+gt_table_function(tbl_one,0.883,0.881, 000, "caschool")
+  
+
+```
+
+

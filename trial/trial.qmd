@@ -1,0 +1,25 @@
+---
+format: pdf
+---
+
+
+
+You can add options to executable code like this
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lccc}
+\toprule
+\textbf{Characteristic} & \textbf{exp(Beta)} & \textbf{95\% CI}\textsuperscript{\textit{1}} & \textbf{p-value} \\ 
+\midrule
+nwifeinc & 0.99 & 0.98, 1.00 & 0.015 \\ 
+educ & 1.14 & 1.09, 1.20 & <0.001 \\ 
+exper & 1.13 & 1.09, 1.17 & <0.001 \\ 
+exper2 & 1.00 & 1.00, 1.00 & 0.002 \\ 
+age & 0.95 & 0.93, 0.96 & <0.001 \\ 
+kidslt6 & 0.42 & 0.33, 0.53 & <0.001 \\ 
+kidsge6 & 1.04 & 0.95, 1.13 & 0.4 \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}CI = Confidence Interval\\
+\end{minipage}

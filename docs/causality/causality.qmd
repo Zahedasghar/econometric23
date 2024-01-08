@@ -1,0 +1,916 @@
+---
+title: "Causality"
+subtitle: "Econometric Methods"
+author: "Zahid Asghar"
+date: "06-11-2023"
+date-format: "DD-MM-YYYY"
+format: 
+  revealjs:
+    theme: [default, custom.css,styles.scss]
+    chalkboard: true
+    code-fold: true
+    slide-number: c/t
+    keep-md: false
+execute: 
+  freeze: auto
+---
+
+
+```{r, setup, include = F}
+ #devtools::install_github("dill/emoGG")
+library(pacman)
+p_load(
+  broom, here, tidyverse,
+  emoGG, latex2exp, ggplot2, ggthemes, viridis, extrafont, gridExtra,
+  kableExtra,
+  data.table,
+  dplyr,
+  lubridate,
+  magrittr, knitr, parallel,emoGG
+)
+# Define pink color
+red_pink <- "#e64173"
+turquoise <- "#20B2AA"
+grey_light <- "grey70"
+grey_mid <- "grey50"
+grey_dark <- "grey20"
+purple <- "#6A5ACD"
+# Dark slate grey: #314f4f
+# Knitr options
+opts_chunk$set(
+  comment = "#>",
+  fig.align = "center",
+  fig.height = 7,
+  fig.width = 10.5,
+  warning = F,
+  message = F
+)
+opts_chunk$set(dev = "svg")
+options(device = function(file, width, height) {
+  svg(tempfile(), width = width, height = height)
+})
+# A blank theme for ggplot
+theme_empty <- theme_bw() + theme(
+  line = element_blank(),
+  rect = element_blank(),
+  strip.text = element_blank(),
+  axis.text = element_blank(),
+  plot.title = element_blank(),
+  axis.title = element_blank(),
+  plot.margin = structure(c(0, 0, -0.5, -1), unit = "lines", valid.unit = 3L, class = "unit"),
+  legend.position = "none"
+)
+theme_simple <- theme_bw() + theme(
+  line = element_blank(),
+  panel.grid = element_blank(),
+  rect = element_blank(),
+  strip.text = element_blank(),
+  axis.text.x = element_text(size = 18, family = "STIXGeneral"),
+  axis.text.y = element_blank(),
+  axis.ticks = element_blank(),
+  plot.title = element_blank(),
+  axis.title = element_blank(),
+  # plot.margin = structure(c(0, 0, -1, -1), unit = "lines", valid.unit = 3L, class = "unit"),
+  legend.position = "none"
+)
+theme_axes_math <- theme_void() + theme(
+  text = element_text(family = "MathJax_Math"),
+  axis.title = element_text(size = 22),
+  axis.title.x = element_text(hjust = .95, margin = margin(0.15, 0, 0, 0, unit = "lines")),
+  axis.title.y = element_text(vjust = .95, margin = margin(0, 0.15, 0, 0, unit = "lines")),
+  axis.line = element_line(
+    color = "grey70",
+    size = 0.25,
+    arrow = arrow(angle = 30, length = unit(0.15, "inches")
+  )),
+  plot.margin = structure(c(1, 0, 1, 0), unit = "lines", valid.unit = 3L, class = "unit"),
+  legend.position = "none"
+)
+theme_axes_serif <- theme_void() + theme(
+  text = element_text(family = "MathJax_Main"),
+  axis.title = element_text(size = 22),
+  axis.title.x = element_text(hjust = .95, margin = margin(0.15, 0, 0, 0, unit = "lines")),
+  axis.title.y = element_text(vjust = .95, margin = margin(0, 0.15, 0, 0, unit = "lines")),
+  axis.line = element_line(
+    color = "grey70",
+    size = 0.25,
+    arrow = arrow(angle = 30, length = unit(0.15, "inches")
+  )),
+  plot.margin = structure(c(1, 0, 1, 0), unit = "lines", valid.unit = 3L, class = "unit"),
+  legend.position = "none"
+)
+theme_axes <- theme_void() + theme(
+  text = element_text(family = "Fira Sans Book"),
+  axis.title = element_text(size = 18),
+  axis.title.x = element_text(hjust = .95, margin = margin(0.15, 0, 0, 0, unit = "lines")),
+  axis.title.y = element_text(vjust = .95, margin = margin(0, 0.15, 0, 0, unit = "lines")),
+  axis.line = element_line(
+    color = grey_light,
+    size = 0.25,
+    arrow = arrow(angle = 30, length = unit(0.15, "inches")
+  )),
+  plot.margin = structure(c(1, 0, 1, 0), unit = "lines", valid.unit = 3L, class = "unit"),
+  legend.position = "none"
+)
+theme_set(theme_gray(base_size = 20))
+```
+
+
+
+## Today
+
+Causality
+
+## Upcoming
+
+**Assignments** One assigned; optional assignment coming soon.
+
+
+# Causality
+
+
+## Intro
+
+Most tasks in econometrics boil down to one of two goals:
+
+$$
+\begin{align}
+  y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k + u
+\end{align}
+$$
+
+. . .
+
+1. [Prediction:] Accurately and dependably [predict/forecast]{style=color:purple;} $\color{#6A5ACD}{y}$ using on some set of explanatory variables—doesn't need to be $x_1$ through $x_k$. Focuses on $\color{#6A5ACD}{\hat{y}}$. $\beta_j$ doesn't really matter.
+
+. . .
+
+2. [Causal estimation:]{style=color:purple;}[^1] Estimate the actual data-generating process—learning about the true, population model that explains [how]{style=color:pink;} $\color{#e64173}{y}$ [changes when we change]{style=color:pink;} $\color{#e64173}{x_j}$—focuses on $\color{#e64173}{\beta_j}$. Accuracy of $\hat{y}$ is not important.
+
+[^1]: Often called *causal identification*.
+
+
+- - -
+
+### For the rest of the term, we will focus on [causally estimating]{style=color:brown;} $\color{#e64173}{\beta_j}$.
+
+
+## The challenges
+
+### As you saw in the data-analysis exercise, determining and estimating the true model can be pretty difficult—both [practically]{style=color:purple;} and [econometrically]{style=color:purple;}. 
+
+
+##
+
+::: columns
+
+:::{.column-width=50%}
+
+**Practical challenges**
+
+- Which variables?
+- Which functional form(s)?
+- Do data exist? How much?
+- Is the sample representative?
+
+::: 
+:::{.column-width=50%} 
+
+**Econometric challenges**
+
+- Omitted-variable bias
+- Reverse causality
+- Measurement error
+- How precise can/must we be?
+:::
+:::
+
+## 
+
+Many of these challenges relate to [exogeneity]{style=color:purple;}, _i.e._, $\color{#314f4f}{\mathop{\boldsymbol{E}}\left[ u_i | X \right] = 0}$.
+
+<br>Causality requires us to [hold all else constant]{style=color:purple;} (*ceterus paribus*).
+
+
+### It's complicated
+
+Occasionally, [*causal*]{style=color:purple;} relationships are simply/easily understood, _e.g._,
+
+
+- What [caused]{style=color:purple;} the forest fire?
+- [How]{style=color:purple;} did this baby get here?
+
+
+
+Generally, [*causal*]{style=color:purple;} relationships are complex and challenging to answer, _e.g._,
+
+- - -
+
+- What [causes]{style=color:purple;} some countries to grow and others to decline?
+- What [caused]{style=color:purple;} the capital riot?
+- Did lax regulation [cause]{style=color:purple;} Texas's recent energy problems?
+- [How]{style=color:purple;} does the number of police officers affect crime?
+- What is the [effect]{style=color:purple;} of better air quality on test scores?
+- Do longer prison sentences [decrease]{style=color:purple;} crime?
+- How did cannabis legalization [affect]{style=color:purple;} mental health/opioid addiction?
+
+
+## Correlation ≠ Causation
+
+You've likely heard the saying
+
+> Correlation is not causation.
+
+The saying is just pointing out that there are violations of exogeneity.
+
+. . .
+
+Although correlation is not causation, [causation *requires* correlation]{style=color:purple;}.
+
+. . .
+
+[New saying:]{style=color:purple;}
+
+> Correlation plus exogeneity is causation.
+
+
+Let's work through a few examples.
+
+# Causation
+
+
+
+## Example: The causal effect of fertilizer[^2]
+
+
+[^2] Many of the early statistical and econometric studies involved agricultural field trials.
+
+
+Suppose we want to know the causal effect of fertilizer on corn yield.
+
+
+
+**Q:** Could we simply regress yield on fertilizer? 
+
+. . .
+
+<br>**A:** Probably not (if we want the causal effect).
+
+. . . 
+
+<br><br>**Q:** Why not? 
+
+- - - 
+
+<br>**A:** Omitted-variable bias: Farmers may apply less fertilizer in areas that are already worse on other dimensions that affect yield (soil, slope, water).<br>[Violates *all else equal* (exogeneity). Biased and/or spurious results.]{style=color:purple;}
+
+. . . 
+
+<br><br>**Q:** So what *should* we do?
+. . . 
+
+<br>**A:** [Run an experiment!]{style=color:red;}  💩
+
+
+## Example: The causal effect of fertilizer
+
+Randomized experiments help us maintain *all else equal* (exogeneity).
+
+
+
+We often call these experiments [*randomized control trials*]{style=color:purple;} (RCTs)..super[^3]
+
+.footnote[
+[^3] Econometrics (and statistics) borrows this language from biostatistics and pharmaceutical trials.
+]
+
+. . .
+
+Imagine an RCT where we have two groups:
+
+- [Treatment:]{style=color:purple;} We apply fertilizer.
+- [Control:]{style=color:pink;} We do not apply fertilizer.
+
+By randomizing plots of land into [treatment]{style=color:purple;} or [control]{style=color:purple;}, we will, on average, include all kinds of land (soild, slope, water, *etc.*) in both groups.
+
+##
+
+*All else equal*!
+
+[54 equal-sized plots]{style=color:purple;}
+```{r, fertilizer_plot1, echo = F}
+xd <- 9
+yd <- 6
+set.seed(123)
+fert_df <- expand.grid(x = 1:xd, y = 1:yd) %>%
+  mutate(
+    q = x + y + 1.25 * rnorm(xd*yd),
+    trt = sample(x = c(T, F), size = xd*yd, replace = T, prob = c(0.51, 0.49)),
+  ) %>%
+  arrange(-y, x) %>%
+  mutate(id = 1:(xd*yd) %>% str_pad(2, "left", "0")) %>%
+  arrange(y, x)
+ggplot(data = fert_df, aes(x, y)) +
+geom_tile(color = "grey40", fill = "grey93", size = 0.2) +
+geom_text(aes(label = id), color = "grey45", size = 5, family = "Roboto Mono") +
+theme_void() +
+coord_equal()
+```
+
+
+##
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;}
+```{r, fertilizer_plot2, echo = F}
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_1, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 1), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+
+##
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_2, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 2), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_3, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 3), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+##
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_4, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 4), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_5, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 5), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_6, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 6), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_7, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 7), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+##
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_8, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 8), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_9, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, 9), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_10, echo = F}
+set.seed(246)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, round(xd * yd / 2, 0)), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## 
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_11, echo = F}
+set.seed(248)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, round(xd * yd / 2, 0)), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+##
+
+[54 equal-sized plots]{style=color:purple;} [of varying quality]{style=color:orange;} [plus randomly assigned treatment]{style=color:purple;}
+```{r, fertilizer_plot3_12, echo = F}
+set.seed(250)
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = sample_n(fert_df, round(xd * yd / 2, 0)), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## Example: The causal effect of fertilizer
+
+We can estimate the [causal effect]{style=color:purple;} of fertilizer on crop yield by comparing the average yield in the treatment group (💩) with the control group (no 💩).
+
+$$
+\begin{align}
+  \overline{\text{Yield}}_\text{Treatment} - \overline{\text{Yield}}_\text{Control}
+\end{align}
+$$
+
+. . .
+
+Alternatively, we can use the regression
+
+. . .
+
+$$
+\begin{align}
+  \text{Yield}_i = \beta_0 + \beta_1 \text{Trt}_i + u_i \tag{1}
+\end{align}
+$$
+
+where $\text{Trt}_i$ is a binary variable (=1 if plot $i$ received the fertilizer treatment).
+
+. . .
+
+**Q:** Should we expect $(1)$ to satisfy exogeneity? Why? 
+
+. . . 
+
+**A:** On average, [randomly assigning treatment should balance]{style=color:purple;} trt. and control across the other dimensions that affect yield (soil, slope, water).
+
+
+
+## Example: Returns to education
+
+Labor economists, policy makers, parents, and students are all interested in the (monetary) *return to education.*
+
+. . .
+
+[Thought experiment:]{style=color:purple;}
+- Randomly select an individual.
+- Give her an additional year of education.
+- How much do her earnings increase?
+
+This change in earnings gives the [causal effect]{style=color:purple;} of education on earnings.
+
+## 
+
+
+**Q:** Could we simply regress earnings on education?
+
+<br>**A:** Again, probably not if we want the true, causal effect.
+
+
+1. People *choose* education based upon many factors, *e.g.*, ability.
+1. Education likely reduces experience (time out of the workforce).
+1. Education is [*endogenous*]{style=color:purple;} (violates *exogeneity*).
+
+
+The point (2) above also illustrates the difficulty in learning about educations while *holding all else constant*.
+
+Many important variables have the same challenge—gender, race, income.
+
+## 
+**Q:** So how can we estimate the returns to education?
+
+::: {.columns}
+::: {.column width='50%'}
+[Option 1:]{style=color:purple;} Run an [experiment]{style=color:orange;}.
+
+- Randomly [assign education]{style=color:orange;} (might be difficult).
+- Randomly [encourage education]{style=color:pink;} (might work).
+- Randomly [assign programs]{style=color:orange;} that affect education (*e.g.*, mentoring).
+:::
+::: {.column width='50%'}
+[Option 2:]{style=color:pink;} Look for a [*natural experiment*]{style=color:purple;} 
+
+— a policy or accident in society that arbitrarily increased education for one subset of people.
+
+- Admissions [cutoffs]{style=color:pink;}
+- [Lottery]{style=color:purple;} enrollment and/or capacity [constraints]{style=color:pink;}
+:::
+:::
+
+## Real-world experiments
+
+Both examples consider [real experiments]{style=color:pink;} that isolate causal effects.
+
+[Characteristics]{style=color:pink;}
+
+- [Feasible]{style=color:purple;}—we can actually (potentially) run the experiment.
+- [Compare individuals]{style=color:purple;} randomized into treatment against individuals randomized into control.
+- [Require "good" randomization]{style=color:purple;} to get *all else equal* (exogeneity).
+
+. . .
+
+*Note:* Your experiment's results are only as good as your randomization.
+
+## 
+
+[Unfortunate randomization]{style=color:purple;}
+```{r, fertilizer_plot3_bad, echo = F}
+ggplot(data = fert_df,
+  aes(x, y)
+) +
+geom_tile(aes(fill = q), color = "white", size = 0.2) +
+# geom_text(aes(label = trt)) +
+geom_emoji(data = filter(fert_df, x < xd/3 | y <= yd/3 | (x == xd & y == yd)), emoji = "1f4a9") +
+scale_fill_viridis(option = "magma", direction = -1) +
+theme_void() +
+theme(legend.position = "none") +
+coord_equal()
+```
+
+## The ideal experiment
+
+The [ideal experiment]{style=color:purple;} would be subtly different.
+
+Rather than comparing units randomized as [treatment]{style=color:purple;} vs. [control]{style=color:purple;}, the ideal experiment would compare treatment and control [for the same, exact unit]{style=color:purple;}.
+
+. . .
+
+$$
+\begin{align}
+  y_{\text{Treatment},i} - y_{\text{Control},i}
+\end{align}
+$$
+
+. . .
+
+which we will write (for simplicity) as
+
+$$
+\begin{align}
+  y_{1,i} - y_{0,i}
+\end{align}
+$$
+
+. . .
+
+This [[*ideal experiment*]{style=color:purple;} is clearly infeasible.][^4], but it creates nice notation for causality (the Rubin causal model/Neyman potential outcomes framework).
+
+[^4]: Without (1) God-like abilities and multiple universes or (2) a time machine.
+
+
+##
+
+::: {.columns}
+
+:::{.column width='50%'}
+
+
+The *ideal* data for 10 people
+```{r, ideal_data, echo = F}
+set.seed(3)
+ideal_df <- data.frame(
+  i = 1:10,
+  trt = rep(c(1, 0), each = 5),
+  y1i = c(runif(10, 4, 10) %>% round(2)),
+  y0i = c(runif(10, 0, 5) %>% round(2))
+)
+ideal_df
+```
+
+:::
+
+::: {.column width='50%'}
+
+
+Calculate the causal effect of trt.
+$$
+\begin{align}
+  \tau_i = y_{1,i} -  y_{0,i}
+\end{align}
+$$
+for each individual $i$.
+:::
+:::: 
+
+- - - 
+
+::: {.columns}
+
+:::{.column width='50%'}
+The *ideal* data for 10 people
+```{r, ideal_data_trt, echo = F}
+ideal_df %>% mutate(effect_i = y1i - y0i)
+```
+:::
+
+
+
+:::{.column width='50%'}
+
+Calculate the causal effect of trt.
+$$
+\begin{align}
+  \tau_i = y_{1,i} -  y_{0,i}
+\end{align}
+$$
+for each individual $i$.
+:::
+::::
+
+- - - 
+
+::: {.columns}
+
+:::{.column width='50%'}
+The *ideal* data for 10 people
+```{r, ideal_data_trt2, echo = F}
+ideal_df %>% mutate(effect_i = y1i - y0i)
+```
+:::
+
+
+
+:::{.column width='50%'}
+
+
+Calculate the causal effect of trt.
+$$
+\begin{align}
+  \tau_i = y_{1,i} -  y_{0,i}
+\end{align}
+$$
+for each individual $i$.
+
+The mean of $\tau_i$ is the<br>[average treatment effect]{style=color:purple;} ([ATE]{style=color:purple;}).
+
+Thus, $\color{#e64173}{\overline{\tau} = `r transmute(ideal_df, effect_i = y1i - y0i) %>% unlist %>% mean %>% round(2)`}$
+
+:::
+::::
+
+- - -
+
+This model highlights the fundamental problem of causal inference.
+$$
+\begin{align}
+  \tau_i = \color{#e64173}{y_{1,i}} &- \color{#6A5ACD}{y_{0,i}}
+\end{align}
+$$
+
+. . .
+
+[The challenge:]{style=color:purple;}
+
+If we observe $\color{#e64173}{y_{1,i}}$, then we cannot observe $\color{#6A5ACD}{y_{0,i}}$.
+<br>If we observe $\color{#6A5ACD}{y_{0,i}}$, then we cannot observe $\color{#e64173}{y_{1,i}}$.
+
+##
+
+
+So a dataset that we actually observe for 6 people will look something like 
+
+::: {.columns}
+
+:::{.column width='50%'} 
+
+```{r, ideal_data_obs, echo = F}
+obs_df <- ideal_df
+obs_df$y0i[1:5] <- NA
+obs_df$y1i[6:10] <- NA
+obs_df
+```
+
+:::
+:::{.column width='50%'}
+
+We can't observe $\color{#e64173}{y_{1,i}}$ and $\color{#6A5ACD}{y_{0,i}}$.
+
+But, we do observe 
+
+- $\color{#e64173}{y_{1,i}}$ for $i$ in 1, 2, 3, 4, 5 
+
+- $\color{#6A5ACD}{y_{0,j}}$ for $j$ in 6, 7, 8, 9, 10
+
+:::
+::::
+
+
+**Q:** How do we "fill in" the `NA`s and estimate $\overline{\tau}$?
+
+## Causally estimating the treatment effect
+
+
+[Notation:]{style=color:purple;} Let $D_i$ be a binary indicator variable such that
+
+- $\color{#e64173}{D_i=1}$ [if individual]{style=color:purple;} $\color{#e64173}{i}$ [is treated]{style=color:purple;}.
+- $\color{#6A5ACD}{D_i=0}$ [if individual]{style=color:purple;} $\color{#6A5ACD}{i}$ [is not treated (*control* group).]{style=color:purple;}
+
+. . .
+
+Then, rephrasing the previous slide,
+
+- We only observe $\color{#e64173}{y_{1,i}}$ when $\color{#e64173}{D_{i}=1}$.
+- We only observe $\color{#6A5ACD}{y_{0,i}}$ when $\color{#6A5ACD}{D_{i}=0}$.
+
+. . .
+
+**Q:** How can we estimate $\overline{\tau}$ using only $\left(\color{#e64173}{y_{1,i}|D_i=1}\right)$ and $\left(\color{#6A5ACD}{y_{0,i}|D_i=0}\right)$?
+
+- - -
+
+**Q:** How can we estimate $\overline{\tau}$ using only $\left(\color{#e64173}{y_{1,i}|D_i=1}\right)$ and $\left(\color{#6A5ACD}{y_{0,i}|D_i=0}\right)$?
+
+. . .
+
+**Idea:** What if we compare the groups' means? _I.e._,
+$$
+\begin{align}
+  \color{#e64173}{\mathop{Avg}\left( y_i\mid D_i = 1 \right)} - \color{#6A5ACD}{\mathop{Avg}\left( y_i\mid D_i =0 \right)}
+\end{align}
+$$
+
+. . .
+
+**Q:** When does this simple difference in groups' means provide information on the [causal effect]{style=color:purple;} of the treatment?
+
+. . .
+
+**Q.sub[2.0]:** Is $\color{#e64173}{\mathop{Avg}\left( y_i\mid D_i = 1 \right)} - \color{#6A5ACD}{\mathop{Avg}\left( y_i\mid D_i =0 \right)}$ a *good* estimator for $\overline{\tau}$?
+
+. . . 
+
+Time for math! [🎉]{width=200}
+
+- - -
+
+[Assumption:]{style=color:purple;} Let $\tau_i = \tau$ for all $i$.
+
+This assumption says that the treatment effect is equal (constant) across all individuals $i$.
+
+. . .
+
+[Note:]{style=color:purple;} We defined
+
+$$
+\begin{align}
+  \tau_i = \tau = \color{#e64173}{y_{1,i}} - \color{#6A5ACD}{y_{0,i}}
+\end{align}
+$$
+
+which implies
+
+$$
+\begin{align}
+   \color{#e64173}{y_{1,i}} = \color{#6A5ACD}{y_{0,i}} + \tau
+\end{align}
+$$
+
+## 
+
+**Q.sub[3.0]:** Is $\color{#e64173}{\mathop{Avg}\left( y_i\mid D_i = 1 \right)} - \color{#6A5ACD}{\mathop{Avg}\left( y_i\mid D_i =0 \right)}$ a *good* estimator for $\tau$?
+
+. . .
+
+Difference in groups' means
+
+<br> $\quad \color{#ffffff}{\Bigg|}=\color{#e64173}{\mathop{Avg}\left( y_i\mid D_i = 1 \right)} - \color{#6A5ACD}{\mathop{Avg}\left( y_i\mid D_i =0 \right)}$
+. . .
+<br> $\quad \color{#ffffff}{\Bigg|}=\color{#e64173}{\mathop{Avg}\left( y_{1,i}\mid D_i = 1 \right)} - \color{#6A5ACD}{\mathop{Avg}\left( y_{0,i}\mid D_i =0 \right)}$
+. . . 
+<br> $\quad \color{#ffffff}{\Bigg|}=\color{#e64173}{\mathop{Avg}\left( \color{#000000}{\tau \: +} \: \color{#6A5ACD}{y_{0,i}} \mid D_i = 1 \right)} - \color{#6A5ACD}{\mathop{Avg}\left( y_{0,i}\mid D_i =0 \right)}$
+. . .
+<br> $\quad \color{#ffffff}{\Bigg|}=\tau + \color{#e64173}{\mathop{Avg}\left(\color{#6A5ACD}{y_{0,i}} \mid D_i = 1 \right)} - \color{#6A5ACD}{\mathop{Avg}\left( y_{0,i}\mid D_i =0 \right)}$
+. . .
+<br> $\quad \color{#ffffff}{\Bigg|}= \text{Average causal effect} + \color{#FFA500}{\text{Selection bias}}$
+
+##
+
+So our proposed group-difference estimator give us the sum of
+
+1. $\tau$, the [causal, average treatment effect]{style=color:purple;} that we want
+2. [Selection bias:]{style=color:orange;} How much trt. and control groups differ (on average).

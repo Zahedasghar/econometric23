@@ -1,0 +1,118 @@
+---
+title: "Logit and Probit Models"
+author: "Zahid Asghar"
+date: "July 17, 2019"
+output: html_document
+---
+
+## Read Data on Insurance downloaded from Econometric Academy An...
+
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r }
+library(tidyverse)
+
+ins1<-read_csv("data/probit_insurance.csv") # insurance data
+ins1<-ins1 %>% select(retire, age, hstatusg, hhincome, educyear, married, hisp,ins)
+
+```
+
+```{r}
+table(ins1$ins)
+ins1 %>% group_by(ins) %>% 
+  summarise(count=n())
+
+```
+
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+# Logit model coefficients
+logit<- glm(ins~.,data=ins1, family=binomial (link = "logit"))
+
+summary(logit) 
+library(broom)
+tidy(logit)
+```
+
+```{r}
+## Round to 3 decimal places
+tidy(logit) %>% mutate_if(is.numeric, round, 3)
+
+```
+
+```{r}
+# Logit model odds ratios round to 2 decimal places
+
+exp(logit$coefficients) |> round(2)
+```
+
+```{r}
+
+# Probit model coefficients
+probit<- glm(ins ~ .,data=ins1, family=binomial (link="probit"))
+
+
+# Round to 3 decimal places
+tidy(probit) %>% mutate_if(is.numeric, round, 3)
+
+```
+
+```{r}
+# Regression marginal effects
+olsreg<-lm(ins~.,data = ins1)
+coef(olsreg) |> round(3)
+```
+
+```{r}
+# Logit model average marginal effects
+LogitScalar <- mean(dlogis(predict(logit, type = "link")))
+LogitScalar * coef(logit) |> round(3)
+```
+
+```{r}
+
+# Probit model average marginal effects
+ProbitScalar <- mean(dnorm(predict(probit, type = "link")))
+ProbitScalar * coef(probit)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+# Regression predicted probabilities
+polsreg<- predict(olsreg)
+summary(polsreg)
+
+# Logit model predicted probabilities
+plogit<- predict(logit, type="response")
+summary(plogit)
+```
+
+```{r}
+# Probit model predicted probabilities
+pprobit<- predict(probit, type="response")
+summary(pprobit)
+
+
+# Percent correctly predicted values
+table(true = ins1$ins, pred = round(fitted(probit)))
+table(true = ins1$ins, pred = round(fitted(logit))) 
+
+# McFadden's Pseudo R-squared
+probit0<-update(probit, formula= ins ~ 1)
+McFadden<- 1-as.vector(logLik(probit)/logLik(probit0))
+McFadden
+
+
+
+
+```

@@ -1,0 +1,137 @@
+---
+title: "Simpsons' paradox"
+author: "Zahid Asghar"
+date: "today"
+format:
+  html
+Source: moderndive.com
+---
+
+## Simpson paradox
+
+If one interprets data at aggregate level , results may be interpretted differently and when same data are evaluated at disaggregated level, one may reach at a different results. This is mainly due to some variable missing in the model. Therefore, care should always be observed while giving causal interpretation to a coefficient in econometric model.
+
+This is data used from Introduction to Statistical Learning built in R-package ISLR. Using Credit data , we shall explore relationship between debt, income and credit limit. For more details , moderndive.com which is a book in econometric using R can be consulted. We shall select only variables of our interest from this credit data.
+
+```{r }
+
+library(ISLR)
+library(tidyverse)
+credit_ch6 <- Credit %>% as_tibble() %>% 
+  select(ID, debt = Balance, credit_limit = Limit,
+         income = Income, credit_rating = Rating, age = Age)
+```
+
+One can look at raw data for selected variables using View or glimpse
+
+```{r }
+glimpse(credit_ch6)
+```
+
+## Exploratory Data Analysis
+
+Let's have a look at 5 values selected randomly out of 400. Note down that due to random sampling you may have different values
+
+```{r }
+credit_ch6 %>% sample_n(5)
+```
+
+To further explore data. lets have a summary statistics using skimr package
+
+```{r echo=FALSE}
+library(skimr)
+credit_ch6 %>% select(debt,income,credit_limit) %>% skim()
+```
+
+If one looks at the summary statistics, 25% of the values of outcome variable *debt* are less than \$68.5 while than \$68.5 while \$\$68.75 while the outcome variables are *credit_limit* and income. credit_limit: the mean and median credit card limit are \$4735.6 and \$4622.50, respectively, while 75% of card holders had incomes of \$57,470 or less.
+
+As our outcome variable *debt* and explanatory variables *income* and *credit_limit* are all numerical, therefore, we shall find correlation between pairs of variables among these variables.
+
+```{r}
+credit_ch6 %>% 
+  select(debt, credit_limit, income) %>% 
+  cor()
+```
+
+Correlation between explanatory variables is 0.792 which is quite high and given *credit_limit* or *income*, one can guess the other. So there seems high collinearity. But at the moment we dont discuss it.
+
+Lest visualize the relationship between outcome variable *debt* and explanatory variables
+
+```{r}
+ggplot(credit_ch6, aes(x = credit_limit, y = debt)) +
+  geom_point() +
+  labs(x = "Credit limit (in $)", y = "Credit card debt (in $)", 
+       title = "Debt and credit limit") +
+  geom_smooth(method = "lm", se = FALSE)
+
+ggplot(credit_ch6, aes(x = income, y = debt)) +
+  geom_point() +
+  labs(x = "Income (in $1000)", y = "Credit card debt (in $)", 
+       title = "Debt and income") +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Observe there is a positive relationship between credit limit and credit card debt: as credit limit increases so also does credit card debt. This is consistent with the strongly positive correlation coefficient of 0.862 we computed earlier.
+
+From the graph one can see positive relationship between income and debt. Now we run multiple regress line
+
+```{r}
+#Regression model
+ debt_model <- lm(debt ~ credit_limit + income, data = credit_ch6)
+ 
+ summary(debt_model)
+
+```
+
+Observe that regression coefficient of income is now negative and for every \$1000 income increase there is debt reduction of \$7.66. This is in contrast to earlier correlation and graphical analysis which shows positive association between income and debt.
+
+So when credit_limit variable is included there is negative relationship between income and debt . Now lets look at disaggregated analysis between credit_limit and outcome variable *debt*.
+
+```{r}
+
+ggplot(credit_ch6, aes(x = credit_limit)) +
+  geom_histogram(color = "white") +
+  geom_vline(xintercept = quantile(credit_ch6$credit_limit, probs = c(0.25, 0.5, 0.75)), linetype = "dashed", size = 1) +
+  labs(x = "Credit limit", title = "Credit limit and 4 credit limit brackets.")
+```
+
+25% (100) persons have credit limits between 0 and 3308 (low credit limit). 25% have between 3308 and 4622 (medium credit limit), 25% have credit limit between 4662 and 5873 (medium hight credit limit) and 25% have credit limit abot \$5873 (hig credit limit).
+
+### Disaggregated data visualization
+
+Lets have a plot between income and debt for the 4 credit limit separately and find out whether relationship is still positive.
+
+```{r}
+credit_ch6 <- credit_ch6 %>%
+  mutate(limit_bracket = cut_number(credit_limit, 4)) %>%
+  mutate(limit_bracket = fct_recode(limit_bracket,
+    "low" =  "[855,3.09e+03]",
+    "med-low" = "(3.09e+03,4.62e+03]",
+    "med-high" = "(4.62e+03,5.87e+03]",
+    "high" = "(5.87e+03,1.39e+04]"
+  ))
+head(credit_ch6)
+model3_balance_vs_income_plot <- ggplot(credit_ch6, aes(x = income, y = debt)) +
+  geom_point() +
+  labs(x = "Income (in $1000)", y = "Credit card debt (in $)",
+       title = "Two scatterplots of credit card debt vs income") +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(limits = c(0, NA))
+
+model3_balance_vs_income_plot_colored <- ggplot(credit_ch6,
+                                                aes(x = income, y = debt,
+                                                    col = limit_bracket)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Income (in $1000)", y = "Credit card debt (in $)",
+       color = "Credit limit\nbracket") +
+  scale_y_continuous(limits = c(0, NA)) +
+  theme(axis.title.y = element_blank())
+
+  model3_balance_vs_income_plot 
+  
+  model3_balance_vs_income_plot_colored
+
+```
+
+Aggregate relationship between **debt** and **income** is positive but when we plot **debt** and **income** relationship for 4 separate categories, we find that relationship for med-low and med-high is negative, it is flat for low category and is only somewhat positive for high category. **credit_limit** is a confounding variable and without including credit-limit, results will be misleading.
